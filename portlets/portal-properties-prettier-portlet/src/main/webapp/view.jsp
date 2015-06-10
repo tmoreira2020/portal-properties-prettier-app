@@ -20,6 +20,8 @@
 
 <portlet:actionURL var="prettifyURL" name="prettify" />
 
+<div class="alert alert-info"><liferay-ui:message key="help-message" /></div>
+
 <aui:form action="${prettifyURL}" method="POST" name="fm" enctype="multipart/form-data" >
 
 	<aui:fieldset>
