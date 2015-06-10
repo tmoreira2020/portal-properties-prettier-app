@@ -110,21 +110,7 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 			line = reader.readLine();
 		}
 
-		StringBuilder customProperties = new StringBuilder();
-
-		customProperties.insert(0, "##\n## Custom properties\n##");
-
-		Enumeration<Object> keys = (Enumeration<Object>) customPortalProperties
-				.keys();
-		while (keys.hasMoreElements()) {
-			Object key = (Object) keys.nextElement();
-			String value = customPortalProperties.getProperty(key.toString());
-			customProperties.append("\n");
-			customProperties.append("    " + key + "=" + value);
-		}
-		customProperties.append("\n");
-
-		pretty.insert(0, customProperties.toString());
+		pretty.insert(0, processRemainingCustomProperties(customPortalProperties));
 
 		request.setAttribute("portalPrettyProperties", pretty.toString());
 
@@ -151,4 +137,21 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 		return defaultPortalProperties;
 	}
 
+	protected String processRemainingCustomProperties(Properties customPortalProperties) {
+		StringBuilder customProperties = new StringBuilder();
+
+		customProperties.append("##\n## Custom properties\n##");
+
+		Enumeration<Object> keys = (Enumeration<Object>) customPortalProperties
+				.keys();
+		while (keys.hasMoreElements()) {
+			Object key = (Object) keys.nextElement();
+			String value = customPortalProperties.getProperty(key.toString());
+			customProperties.append("\n");
+			customProperties.append("    " + key + "=" + value);
+		}
+		customProperties.append("\n");
+
+		return customProperties.toString();
+	}
 }
