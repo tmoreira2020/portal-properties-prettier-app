@@ -16,6 +16,7 @@
 package br.com.thiagomoreira.liferay.plugins;
 
 import java.io.BufferedReader;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -25,12 +26,15 @@ import java.util.Set;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 
+import com.liferay.portal.kernel.cache.PortalCache;
+import com.liferay.portal.kernel.cache.SingleVMPoolUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PropertiesUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
@@ -47,9 +51,21 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 		String liferayVersion = ParamUtil.getString(uploadPortletRequest,
 				"liferayVersion");
 
-		String defaultPortalProperties = HttpUtil
-				.URLtoString("https://raw.githubusercontent.com/liferay/liferay-portal/"
-						+ liferayVersion + "/portal-impl/src/portal.properties");
+		PortalCache<Serializable, Object> portalCache = SingleVMPoolUtil
+				.getCache(PortalPropertiesPrettierPortlet.class.getName());
+
+		String defaultPortalPropertiesURL = "https://raw.githubusercontent.com/liferay/liferay-portal/"
+				+ liferayVersion + "/portal-impl/src/portal.properties";
+		String defaultPortalProperties = (String) portalCache
+				.get(defaultPortalPropertiesURL);
+
+		if (Validator.isNull(defaultPortalProperties)) {
+			defaultPortalProperties = HttpUtil
+					.URLtoString(defaultPortalPropertiesURL);
+
+			portalCache.put(defaultPortalPropertiesURL,
+					defaultPortalProperties, 60);
+		}
 
 		Properties customPortalProperties = PropertiesUtil.load(
 				uploadPortletRequest.getFileAsStream("portalPropertiesFile"),
