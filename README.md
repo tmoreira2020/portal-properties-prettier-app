@@ -4,7 +4,7 @@ Portal Properties Prettier App
 [![Coverage Status](https://coveralls.io/repos/tmoreira2020/portal-properties-prettier-app/badge.png?branch=master)](https://coveralls.io/r/tmoreira2020/portal-properties-prettier-app?branch=master)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/br.com.thiagomoreira.liferay.plugins.portal-properties-prettier-app/portal-properties-prettier-app/badge.svg)](https://maven-badges.herokuapp.com/maven-central/br.com.thiagomoreira.liferay.plugins.portal-properties-prettier-app/portal-properties-prettier-app)
 
-Turns a messy portal-*.properties into a clean and well organised portal-*.properties. Basically it does 4 things:
+Turns a messy portal-\*.properties into a clean and well organised portal-\*.properties. Basically it does 4 things:
 
 * Removes properties that has the same values as the original portal.properties located at portal-impl.jar
 * Sort the properties in the same order as the original portal.properties
