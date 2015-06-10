@@ -59,12 +59,12 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 				"UTF-8");
 
 		String currentContext = null;
+		StringBuilder currentComment = new StringBuilder();
 		Set<String> processedContexts = new HashSet<String>();
 		StringBuilder pretty = new StringBuilder();
 		BufferedReader reader = new BufferedReader(new StringReader(
 				defaultPortalProperties));
 		String line = reader.readLine();
-		StringBuilder currentComment = new StringBuilder();
 
 		while (line != null) {
 			if (line.startsWith("## ")) {
