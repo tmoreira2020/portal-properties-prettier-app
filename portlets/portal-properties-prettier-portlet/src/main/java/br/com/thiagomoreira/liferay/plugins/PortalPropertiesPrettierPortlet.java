@@ -16,6 +16,7 @@
 package br.com.thiagomoreira.liferay.plugins;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.util.Enumeration;
@@ -51,21 +52,7 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 		String liferayVersion = ParamUtil.getString(uploadPortletRequest,
 				"liferayVersion");
 
-		PortalCache<Serializable, Object> portalCache = SingleVMPoolUtil
-				.getCache(PortalPropertiesPrettierPortlet.class.getName());
-
-		String defaultPortalPropertiesURL = "https://raw.githubusercontent.com/liferay/liferay-portal/"
-				+ liferayVersion + "/portal-impl/src/portal.properties";
-		String defaultPortalProperties = (String) portalCache
-				.get(defaultPortalPropertiesURL);
-
-		if (Validator.isNull(defaultPortalProperties)) {
-			defaultPortalProperties = HttpUtil
-					.URLtoString(defaultPortalPropertiesURL);
-
-			portalCache.put(defaultPortalPropertiesURL,
-					defaultPortalProperties, 60);
-		}
+		String defaultPortalProperties = getDefaultPortalProperties(liferayVersion);
 
 		Properties customPortalProperties = PropertiesUtil.load(
 				uploadPortletRequest.getFileAsStream("portalPropertiesFile"),
@@ -142,6 +129,26 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 		request.setAttribute("portalPrettyProperties", pretty.toString());
 
 		response.setRenderParameter("liferayVersion", liferayVersion);
+	}
+
+	protected String getDefaultPortalProperties(String liferayVersion) throws IOException {
+		PortalCache<Serializable, Object> portalCache = SingleVMPoolUtil
+				.getCache(PortalPropertiesPrettierPortlet.class.getName());
+
+		String defaultPortalPropertiesURL = "https://raw.githubusercontent.com/liferay/liferay-portal/"
+				+ liferayVersion + "/portal-impl/src/portal.properties";
+		String defaultPortalProperties = (String) portalCache
+				.get(defaultPortalPropertiesURL);
+
+		if (Validator.isNull(defaultPortalProperties)) {
+			defaultPortalProperties = HttpUtil
+					.URLtoString(defaultPortalPropertiesURL);
+
+			portalCache.put(defaultPortalPropertiesURL,
+					defaultPortalProperties, 60);
+		}
+
+		return defaultPortalProperties;
 	}
 
 }
