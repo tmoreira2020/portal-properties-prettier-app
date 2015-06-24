@@ -110,7 +110,8 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 			line = reader.readLine();
 		}
 
-		pretty.insert(0, processRemainingCustomProperties(customPortalProperties));
+		pretty.insert(0,
+				processRemainingCustomProperties(customPortalProperties));
 
 		request.setAttribute("portalPrettyProperties", pretty.toString());
 
@@ -121,7 +122,8 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 		return text.replaceAll("(\\r|\\n|\\r\\n)+", "\\\\n");
 	}
 
-	protected String getDefaultPortalProperties(String liferayVersion) throws IOException {
+	protected String getDefaultPortalProperties(String liferayVersion)
+			throws IOException {
 		PortalCache<Serializable, Object> portalCache = SingleVMPoolUtil
 				.getCache(PortalPropertiesPrettierPortlet.class.getName());
 
@@ -141,7 +143,8 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 		return defaultPortalProperties;
 	}
 
-	protected String processRemainingCustomProperties(Properties customPortalProperties) {
+	protected String processRemainingCustomProperties(
+			Properties customPortalProperties) {
 		StringBuilder customProperties = new StringBuilder();
 
 		customProperties.append("##\n## Custom properties\n##");
