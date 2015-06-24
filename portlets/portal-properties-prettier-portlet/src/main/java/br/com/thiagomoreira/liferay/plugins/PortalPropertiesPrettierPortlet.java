@@ -82,8 +82,8 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 					.keys();
 			while (keys.hasMoreElements()) {
 				Object key = (Object) keys.nextElement();
-				String value = customPortalProperties.getProperty(key
-						.toString());
+				String value = fixLineBreak(customPortalProperties
+						.getProperty(key.toString()));
 				if (line.startsWith("    " + key.toString() + "=")
 						|| line.startsWith("    #" + key.toString() + "=")) {
 					if (!line.startsWith("    " + key.toString() + "=" + value)) {
@@ -117,6 +117,10 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 		response.setRenderParameter("liferayVersion", liferayVersion);
 	}
 
+	protected String fixLineBreak(String text) {
+		return text.replaceAll("(\\r|\\n|\\r\\n)+", "\\\\n");
+	}
+
 	protected String getDefaultPortalProperties(String liferayVersion) throws IOException {
 		PortalCache<Serializable, Object> portalCache = SingleVMPoolUtil
 				.getCache(PortalPropertiesPrettierPortlet.class.getName());
@@ -146,7 +150,8 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 				.keys();
 		while (keys.hasMoreElements()) {
 			Object key = (Object) keys.nextElement();
-			String value = customPortalProperties.getProperty(key.toString());
+			String value = fixLineBreak(customPortalProperties.getProperty(key
+					.toString()));
 			customProperties.append("\n");
 			customProperties.append("    " + key + "=" + value);
 		}
