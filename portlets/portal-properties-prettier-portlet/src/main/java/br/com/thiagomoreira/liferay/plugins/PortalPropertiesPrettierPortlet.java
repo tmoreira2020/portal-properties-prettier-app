@@ -83,12 +83,12 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 			Enumeration<Object> keys = (Enumeration<Object>) customPortalProperties
 					.keys();
 			while (keys.hasMoreElements()) {
-				Object key = (Object) keys.nextElement();
+				String key = (String) keys.nextElement();
 				String value = fixLineBreak(customPortalProperties
-						.getProperty(key.toString()));
-				if (line.startsWith("    " + key.toString() + "=")
-						|| line.startsWith("    #" + key.toString() + "=")) {
-					if (!line.startsWith("    " + key.toString() + "=" + value)) {
+						.getProperty(key));
+				if (line.startsWith("    " + key + "=")
+						|| line.startsWith("    #" + key + "=")) {
+					if (!line.startsWith("    " + key + "=" + value)) {
 						if (!processedContexts.contains(currentContext)) {
 							pretty.append("\n");
 							pretty.append("##");
@@ -98,7 +98,7 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 							pretty.append("##");
 							processedContexts.add(currentContext);
 						}
-						if (line.startsWith("    #" + key.toString() + "=")) {
+						if (line.startsWith("    #" + key + "=")) {
 							currentComment.setLength(oldCommentLength);
 
 							if (currentComment.length() != 0) {
