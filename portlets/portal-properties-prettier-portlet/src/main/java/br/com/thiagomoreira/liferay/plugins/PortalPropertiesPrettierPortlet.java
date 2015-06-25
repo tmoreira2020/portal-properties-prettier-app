@@ -63,6 +63,7 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 		String currentContext = null;
 		StringBuilder currentComment = new StringBuilder();
 		Set<String> processedContexts = new HashSet<String>();
+		Properties removedProperties = new Properties();
 		StringBuilder pretty = new StringBuilder();
 		BufferedReader reader = new BufferedReader(new StringReader(
 				defaultPortalProperties));
@@ -136,7 +137,7 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 							}
 						}
 					} else {
-						log.info("Removing property:" + key);
+						removedProperties.put(key, value);
 					}
 					customPortalProperties.remove(key);
 				}
@@ -147,6 +148,8 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 
 		pretty.insert(0,
 				processRemainingCustomProperties(customPortalProperties));
+
+		pretty.insert(0, processRemovedProperties(removedProperties));
 
 		request.setAttribute("portalPrettyProperties", pretty.toString());
 
@@ -200,5 +203,24 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 		customProperties.append("\n");
 
 		return customProperties.toString();
+	}
+
+	protected String processRemovedProperties(Properties removedProperties) {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		stringBuilder.append("##\n## Removed properties\n##");
+
+		Enumeration<Object> keys = (Enumeration<Object>) removedProperties
+				.keys();
+		while (keys.hasMoreElements()) {
+			Object key = (Object) keys.nextElement();
+			String value = fixLineBreak(removedProperties.getProperty(key
+					.toString()));
+			stringBuilder.append("\n");
+			stringBuilder.append("    #" + key + "=" + value);
+		}
+		stringBuilder.append("\n\n");
+
+		return stringBuilder.toString();
 	}
 }
