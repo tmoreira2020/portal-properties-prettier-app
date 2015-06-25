@@ -18,6 +18,8 @@
 
 <%@ include file="/init.jsp" %>
 
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.2.0/ZeroClipboard.min.js"></script>
+
 <portlet:actionURL var="prettifyURL" name="prettify" />
 
 <div class="alert alert-info"><liferay-ui:message key="help-message" /></div>
@@ -44,5 +46,8 @@
 </aui:form>
 
 <c:if test="${not empty(requestScope.portalPrettyProperties)}">
-	<pre class="prettyprint">${requestScope.portalPrettyProperties}</pre>
+	<div class="btn btn-warning pull-right" id="copyButton" data-clipboard-target="portalPrettyProperties">
+		<liferay-ui:message key="copy" />
+	</div>
+	<pre class="prettyprint" id="portalPrettyProperties">${requestScope.portalPrettyProperties}</pre>
 </c:if>
