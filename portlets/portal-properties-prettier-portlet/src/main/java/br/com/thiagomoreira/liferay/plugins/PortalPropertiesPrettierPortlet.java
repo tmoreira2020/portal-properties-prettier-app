@@ -65,12 +65,14 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 		BufferedReader reader = new BufferedReader(new StringReader(
 				defaultPortalProperties));
 		String line = reader.readLine();
+		int oldCommentLength = 0;
 
 		while (line != null) {
 			if (line.startsWith("## ")) {
 				currentContext = line;
 			}
 			if (line.startsWith("    #")) {
+				oldCommentLength = currentComment.length();
 				currentComment.append("\n");
 				currentComment.append(line);
 			}
@@ -96,8 +98,18 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 							pretty.append("##");
 							processedContexts.add(currentContext);
 						}
-						pretty.append(currentComment);
-						pretty.append("\n");
+						if (line.startsWith("    #" + key.toString() + "=")) {
+							currentComment.setLength(oldCommentLength);
+
+							if (currentComment.length() != 0) {
+								pretty.append(currentComment);
+								pretty.append("\n");
+								currentComment.setLength(0);
+							}
+						} else {
+							pretty.append(currentComment);
+							pretty.append("\n");
+						}
 						pretty.append("    " + key + "=" + value);
 						pretty.append("\n");
 					} else {
