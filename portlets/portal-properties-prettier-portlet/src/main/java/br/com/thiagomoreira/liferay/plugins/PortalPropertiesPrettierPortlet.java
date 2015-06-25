@@ -23,6 +23,8 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -66,6 +68,7 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 				defaultPortalProperties));
 		String line = reader.readLine();
 		int oldCommentLength = 0;
+		Pattern keyDigitPattern = Pattern.compile("([a-z]|\\.|\\[|\\])+(\\d)$");
 
 		while (line != null) {
 			if (line.startsWith("## ")) {
@@ -112,6 +115,26 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 						}
 						pretty.append("    " + key + "=" + value);
 						pretty.append("\n");
+
+						Matcher matcher = keyDigitPattern.matcher(key);
+						if (matcher.matches()) {
+
+							String digitFound = matcher.group(2);
+							for (int i = 1; i < 10; i++) {
+								String tempKey = key.replace(digitFound,
+										String.valueOf(i));
+								value = fixLineBreak(customPortalProperties
+										.getProperty(tempKey));
+
+								if (value != null) {
+									pretty.append("    " + tempKey + "="
+											+ value);
+									pretty.append("\n");
+
+									customPortalProperties.remove(tempKey);
+								}
+							}
+						}
 					} else {
 						log.info("Removing property:" + key);
 					}
@@ -131,6 +154,10 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 	}
 
 	protected String fixLineBreak(String text) {
+		if (text == null) {
+			return null;
+		}
+
 		return text.replaceAll("(\\r|\\n|\\r\\n)+", "\\\\n");
 	}
 
