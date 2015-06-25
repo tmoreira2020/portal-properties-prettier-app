@@ -37,6 +37,7 @@ import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PropertiesUtil;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
@@ -187,6 +188,10 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 
 	protected String processRemainingCustomProperties(
 			Properties customPortalProperties) {
+		if (customPortalProperties.isEmpty()) {
+			return StringPool.BLANK;
+		}
+
 		StringBuilder customProperties = new StringBuilder();
 
 		customProperties.append("##\n## Custom properties\n##");
@@ -206,6 +211,10 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 	}
 
 	protected String processRemovedProperties(Properties removedProperties) {
+		if (removedProperties.isEmpty()) {
+			return StringPool.BLANK;
+		}
+
 		StringBuilder stringBuilder = new StringBuilder();
 
 		stringBuilder.append("##\n## Removed properties\n##");
