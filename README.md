@@ -13,7 +13,7 @@ Turns a messy portal-\*.properties into a clean and well organised portal-\*.pro
 
 ### Online version
 
-You can test it on https://www.thiagomoreira.com.br/projects/portal-properties-prettier-app
+You can test it on https://www.thiagomoreira.com.br/projects/portal-properties-prettier-app/online-version
  
 ### License
 
