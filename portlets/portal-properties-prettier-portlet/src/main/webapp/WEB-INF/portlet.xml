@@ -23,7 +23,7 @@
 		<portlet-class>br.com.thiagomoreira.liferay.plugins.PortalPropertiesPrettierPortlet</portlet-class>
 		<init-param>
 			<name>view-template</name>
-			<value>/view.jsp</value>
+			<value>/html/view.jsp</value>
 		</init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>

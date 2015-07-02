@@ -16,7 +16,7 @@
 
 --%>
 
-<%@ include file="/init.jsp" %>
+<%@ include file="/html/init.jsp" %>
 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.2.0/ZeroClipboard.min.js"></script>
 
