@@ -22,8 +22,6 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
 
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -34,8 +32,6 @@ import com.liferay.util.bridges.mvc.MVCPortlet;
 public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 
 	protected PortalPropertiesPrettier prettier = new PortalPropertiesPrettier();
-	private static Log log = LogFactoryUtil
-			.getLog(PortalPropertiesPrettierPortlet.class);
 
 	public void prettify(ActionRequest request, ActionResponse response)
 			throws Exception {
