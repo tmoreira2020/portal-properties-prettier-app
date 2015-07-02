@@ -36,6 +36,7 @@
 	<inceptionYear>2015</inceptionYear>
 
 	<modules>
+		<module>cores</module>
 		<module>portlets</module>
 		<module>distribution</module>
 	</modules>
