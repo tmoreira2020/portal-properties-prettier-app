@@ -29,7 +29,7 @@ Maven:
 <dependency>
     <groupId>br.com.thiagomoreira.liferay.plugins.portal-properties-prettier-app</groupId>
     <artifactId>portal-properties-prettier-app</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <type>lpkg</type>
 </dependency>
 ```
@@ -37,7 +37,7 @@ Gradle:
 
 ```groovy
 dependencies {
-    compile(group: "br.com.thiagomoreira.liferay.plugins.portal-properties-prettier-app", name: "portal-properties-prettier-app", version: "1.0.0", type: "lpkg");
+    compile(group: "br.com.thiagomoreira.liferay.plugins.portal-properties-prettier-app", name: "portal-properties-prettier-app", version: "1.1.0", type: "lpkg");
 }
 ```
 ### Support
