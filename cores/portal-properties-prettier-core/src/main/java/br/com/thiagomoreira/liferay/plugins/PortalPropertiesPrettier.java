@@ -42,6 +42,8 @@ public class PortalPropertiesPrettier {
 	public String prettify(Properties customProperties, String liferayVersion)
 			throws Exception {
 
+		log.info("Processing " + customProperties.size() + " custom properties");
+
 		String defaultPortalProperties = getDefaultPortalProperties(liferayVersion);
 		String currentContext = null;
 		StringBuilder currentComment = new StringBuilder();
@@ -154,6 +156,8 @@ public class PortalPropertiesPrettier {
 				.get(defaultPortalPropertiesURL);
 
 		if (Validator.isNull(defaultPortalProperties)) {
+			log.info("Missing cache for portal.properties version " + liferayVersion);
+
 			defaultPortalProperties = HttpUtil
 					.URLtoString(defaultPortalPropertiesURL);
 
@@ -192,6 +196,8 @@ public class PortalPropertiesPrettier {
 		if (removedProperties.isEmpty()) {
 			return StringPool.BLANK;
 		}
+
+		log.info("Removing " + removedProperties.size() + " properties");
 
 		StringBuilder stringBuilder = new StringBuilder();
 
