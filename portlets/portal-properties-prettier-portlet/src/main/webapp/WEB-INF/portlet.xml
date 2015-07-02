@@ -20,7 +20,7 @@
 	<portlet>
 		<portlet-name>portal-properties-prettier-portlet</portlet-name>
 		<display-name>portal-properties-prettier-portlet</display-name>
-		<portlet-class>br.com.thiagomoreira.liferay.plugins.PortalPropertiesPrettierPortlet</portlet-class>
+		<portlet-class>br.com.thiagomoreira.liferay.plugins.portalpropertiesprettier.PortalPropertiesPrettierPortlet</portlet-class>
 		<init-param>
 			<name>view-template</name>
 			<value>/html/view.jsp</value>

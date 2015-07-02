@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package br.com.thiagomoreira.liferay.plugins;
+package br.com.thiagomoreira.liferay.plugins.portalpropertiesprettier;
 
 import java.util.Properties;
 
