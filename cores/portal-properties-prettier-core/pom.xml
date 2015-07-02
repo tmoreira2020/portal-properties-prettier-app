@@ -28,4 +28,12 @@
 	<artifactId>portal-properties-prettier-core</artifactId>
 
 	<name>Portal Properties Prettier Core</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+		</dependency>
+	</dependencies>
 </project>
