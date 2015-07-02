@@ -22,7 +22,7 @@
 
 <portlet:actionURL var="prettifyURL" name="prettify" />
 
-<div class="alert alert-info"><liferay-ui:message key="help-message" /></div>
+<div class="alert alert-info"><liferay-ui:message key="help-message" /><span class="badge badge-warning">${portletPreferencesValues.counter[0]}</span></div>
 
 <aui:form action="${prettifyURL}" method="POST" name="fm" enctype="multipart/form-data" >
 

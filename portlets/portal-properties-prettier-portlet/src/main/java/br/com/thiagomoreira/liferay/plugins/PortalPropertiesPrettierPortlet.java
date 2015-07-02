@@ -28,12 +28,15 @@ import java.util.regex.Pattern;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.PortletPreferences;
+import javax.portlet.PortletRequest;
 
 import com.liferay.portal.kernel.cache.PortalCache;
 import com.liferay.portal.kernel.cache.SingleVMPoolUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PropertiesUtil;
@@ -155,6 +158,8 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 		request.setAttribute("portalPrettyProperties", pretty.toString());
 
 		response.setRenderParameter("liferayVersion", liferayVersion);
+
+		incrementCounter(request);
 	}
 
 	protected String fixLineBreak(String text) {
@@ -184,6 +189,17 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 		}
 
 		return defaultPortalProperties;
+	}
+
+	protected void incrementCounter(PortletRequest request) throws Exception {
+		PortletPreferences preferences = request.getPreferences();
+
+		int count = GetterUtil.getInteger(preferences.getValue("counter", "0"));
+
+		count++;
+
+		preferences.setValue("counter", String.valueOf(count));
+		preferences.store();
 	}
 
 	protected String processRemainingCustomProperties(
