@@ -180,7 +180,7 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 					.URLtoString(defaultPortalPropertiesURL);
 
 			portalCache.put(defaultPortalPropertiesURL,
-					defaultPortalProperties, 60);
+					defaultPortalProperties, 60 * 60 * 24);
 		}
 
 		return defaultPortalProperties;
