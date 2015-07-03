@@ -74,8 +74,8 @@ public class PortalPropertiesPrettier {
 			while (keys.hasMoreElements()) {
 				String key = (String) keys.nextElement();
 				String value = fixLineBreak(customProperties.getProperty(key));
-				if (line.startsWith("    " + key + "=")
-						|| line.startsWith("    #" + key + "=")) {
+
+				if (isLineProperty(line, key)) {
 					if (!line.startsWith("    " + key + "=" + value)) {
 						if (!processedContexts.contains(currentContext)) {
 							pretty.append("\n");
@@ -163,6 +163,11 @@ public class PortalPropertiesPrettier {
 		}
 
 		return portalProperties;
+	}
+
+	protected boolean isLineProperty(String line, String key) {
+		return line.startsWith("    " + key + "=")
+			|| line.startsWith("    #" + key + "=");
 	}
 
 	protected String processRemainingCustomProperties(
