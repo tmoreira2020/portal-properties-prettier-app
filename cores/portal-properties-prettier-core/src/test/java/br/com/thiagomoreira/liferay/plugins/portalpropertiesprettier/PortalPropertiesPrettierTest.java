@@ -15,8 +15,15 @@
  */
 package br.com.thiagomoreira.liferay.plugins.portalpropertiesprettier;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.liferay.portal.kernel.util.PropertiesUtil;
 
 public class PortalPropertiesPrettierTest {
 
@@ -47,4 +54,29 @@ public class PortalPropertiesPrettierTest {
 
 		Assert.assertEquals(expected, actual);
 	}
+
+	@Test
+	public void testIssue10() throws Exception {
+		PortalPropertiesPrettier prettier = new PortalPropertiesPrettier();
+		String expected = getContent("/portal-issue-10-expected.properties");
+		String actual = getContent("/portal-issue-10.properties");
+		Properties customProperties = PropertiesUtil.load(actual);
+
+		actual = prettier.prettify(customProperties, "6.2.3-ga4");
+
+		Assert.assertEquals(expected, actual);
+	}
+
+	protected String getContent(String path) throws IOException {
+		InputStream in = getClass().getResourceAsStream(path);
+
+		try {
+			return IOUtils.toString(in);
+		} catch (IOException ioex) {
+			throw ioex;
+		} finally {
+			IOUtils.closeQuietly(in);
+		}
+	}
+
 }
