@@ -55,6 +55,7 @@ public class PortalPropertiesPrettier {
 		String line = reader.readLine();
 		int oldCommentLength = 0;
 		Pattern keyDigitPattern = Pattern.compile("([a-z]|\\.|\\[|\\])+(\\d)$");
+		boolean hasCommentAfterContext = false;
 
 		while (line != null) {
 			if (line.startsWith("## ")) {
@@ -62,8 +63,9 @@ public class PortalPropertiesPrettier {
 			}
 			if (line.startsWith("    #")) {
 				oldCommentLength = currentComment.length();
-				currentComment.append("\n");
 				currentComment.append(line);
+				currentComment.append("\n");
+				hasCommentAfterContext = true;
 			}
 			if (line.length() == 0) {
 				currentComment.setLength(0);
@@ -84,15 +86,22 @@ public class PortalPropertiesPrettier {
 							pretty.append(currentContext);
 							pretty.append("\n");
 							pretty.append("##");
+							pretty.append("\n");
 							processedContexts.add(currentContext);
+							hasCommentAfterContext = false;
 						}
 						if (line.startsWith("    #" + key + "=")) {
 							currentComment.setLength(oldCommentLength);
 						}
 						if (currentComment.length() != 0) {
-							pretty.append(currentComment);
 							pretty.append("\n");
+							pretty.append(currentComment);
 							currentComment.setLength(0);
+							hasCommentAfterContext = true;
+						}
+						if (!hasCommentAfterContext) {
+							pretty.append("\n");
+							hasCommentAfterContext = true;
 						}
 						pretty.append("    " + key + "=" + value);
 						pretty.append("\n");
@@ -175,6 +184,7 @@ public class PortalPropertiesPrettier {
 		StringBuilder customProperties = new StringBuilder();
 
 		customProperties.append("##\n## Custom properties\n##");
+		customProperties.append("\n");
 
 		Enumeration<Object> keys = (Enumeration<Object>) customPortalProperties
 				.keys();
@@ -200,6 +210,7 @@ public class PortalPropertiesPrettier {
 		StringBuilder stringBuilder = new StringBuilder();
 
 		stringBuilder.append("##\n## Removed properties\n##");
+		stringBuilder.append("\n");
 
 		Enumeration<Object> keys = (Enumeration<Object>) removedProperties
 				.keys();
