@@ -47,4 +47,13 @@
 			<artifactId>junit</artifactId>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eluder.coveralls</groupId>
+				<artifactId>coveralls-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 </project>
