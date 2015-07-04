@@ -24,25 +24,27 @@ public class PortalPropertiesPrettierTest {
 	public void testFixLineBreakNull() {
 		PortalPropertiesPrettier prettier = new PortalPropertiesPrettier();
 
-		String fixed = prettier.fixLineBreak(null);
+		String actual = prettier.fixLineBreak(null);
 
-		Assert.assertNull(fixed);
+		Assert.assertNull(actual);
 	}
 
 	@Test
 	public void testFixLineBreakNotNull() {
 		PortalPropertiesPrettier prettier = new PortalPropertiesPrettier();
 
-		String fixed = prettier.fixLineBreak("\n");
+		String expected = "\\n";
 
-		Assert.assertEquals("\\n", fixed);
+		String actual = prettier.fixLineBreak("\n");
 
-		fixed = prettier.fixLineBreak("\r");
+		Assert.assertEquals(expected, actual);
 
-		Assert.assertEquals("\\n", fixed);
+		actual = prettier.fixLineBreak("\r");
 
-		fixed = prettier.fixLineBreak("\r\n");
+		Assert.assertEquals(expected, actual);
 
-		Assert.assertEquals("\\n", fixed);
+		actual = prettier.fixLineBreak("\r\n");
+
+		Assert.assertEquals(expected, actual);
 	}
 }
