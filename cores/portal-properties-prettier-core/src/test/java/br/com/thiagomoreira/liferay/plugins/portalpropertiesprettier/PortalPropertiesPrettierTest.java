@@ -67,6 +67,18 @@ public class PortalPropertiesPrettierTest {
 		Assert.assertEquals(expected, actual);
 	}
 
+	@Test
+	public void testIssue12() throws Exception {
+		PortalPropertiesPrettier prettier = new PortalPropertiesPrettier();
+		String expected = getContent("/portal-issue-12-expected.properties");
+		String actual = getContent("/portal-issue-12.properties");
+		Properties customProperties = PropertiesUtil.load(actual);
+
+		actual = prettier.prettify(customProperties, "6.2.3-ga4");
+
+		Assert.assertEquals(expected, actual);
+	}
+
 	protected String getContent(String path) throws IOException {
 		InputStream in = getClass().getResourceAsStream(path);
 

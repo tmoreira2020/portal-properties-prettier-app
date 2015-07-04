@@ -88,15 +88,11 @@ public class PortalPropertiesPrettier {
 						}
 						if (line.startsWith("    #" + key + "=")) {
 							currentComment.setLength(oldCommentLength);
-
-							if (currentComment.length() != 0) {
-								pretty.append(currentComment);
-								pretty.append("\n");
-								currentComment.setLength(0);
-							}
-						} else {
+						}
+						if (currentComment.length() != 0) {
 							pretty.append(currentComment);
 							pretty.append("\n");
+							currentComment.setLength(0);
 						}
 						pretty.append("    " + key + "=" + value);
 						pretty.append("\n");
