@@ -83,7 +83,7 @@ public class PortalPropertiesPrettier {
 				String value = fixLineBreak(customProperties.getProperty(key));
 
 				if (isLineProperty(line, key)) {
-					if (!line.startsWith("    " + key + "=" + value) || Validator.isNull(value)) {
+					if (!line.startsWith("    " + key + "=" + value) || !line.equals("    " + key + "=" + value)) {
 						if (!processedContexts.contains(currentContext)) {
 							pretty.append("\n");
 							pretty.append("##");
