@@ -41,6 +41,11 @@ public class PortalPropertiesPrettier {
 
 	public String prettify(Properties customProperties, String liferayVersion)
 			throws Exception {
+		return prettify(customProperties, liferayVersion, false);
+	}
+
+	public String prettify(Properties customProperties, String liferayVersion, boolean printDefaultValue)
+			throws Exception {
 
 		log.info("Processing " + customProperties.size() + " custom properties");
 
@@ -103,6 +108,12 @@ public class PortalPropertiesPrettier {
 							pretty.append("\n");
 							hasCommentAfterContext = true;
 						}
+
+						if (printDefaultValue) {
+							pretty.append(line.replace("    ", "    #"));
+							pretty.append("\n");
+						}
+
 						pretty.append("    " + key + "=" + value);
 						pretty.append("\n");
 
