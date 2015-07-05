@@ -22,7 +22,7 @@
 	<parent>
 		<groupId>br.com.thiagomoreira</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.7</version>
+		<version>0.8</version>
 	</parent>
 
 	<groupId>br.com.thiagomoreira.liferay.plugins.portal-properties-prettier-app</groupId>
@@ -131,15 +131,6 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-war-plugin</artifactId>
 					<configuration>
-						<archive>
-							<manifest>
-								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
- 							</manifest>
-							<manifestEntries>
-								<Build-Time>${timestamp}</Build-Time>
-								<Implementation-Build>${buildNumber}</Implementation-Build>
-							</manifestEntries>
-						</archive>
 						<webResources>
 							<resource>
 								<directory>src/main/resources/WEB-INF</directory>
