@@ -17,29 +17,34 @@ package br.com.thiagomoreira.liferay.plugins.portalpropertiesprettier;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Serializable;
 import java.io.StringReader;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.liferay.portal.kernel.cache.PortalCache;
-import com.liferay.portal.kernel.cache.SingleVMPoolUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.util.ContentUtil;
 
 public class PortalPropertiesPrettier {
 
+	protected Map<String, String> defaultPortalProperties = new HashMap<>();
 	private static Log log = LogFactoryUtil
 			.getLog(PortalPropertiesPrettier.class);
 
 	public String prettify(Properties customProperties, String liferayVersion)
+			throws Exception {
+		return prettify(customProperties, liferayVersion, false);
+	}
+
+	public String prettify(Properties customProperties, String liferayVersion, boolean printDefaultValue)
 			throws Exception {
 
 		log.info("Processing " + customProperties.size() + " custom properties");
@@ -55,6 +60,7 @@ public class PortalPropertiesPrettier {
 		String line = reader.readLine();
 		int oldCommentLength = 0;
 		Pattern keyDigitPattern = Pattern.compile("([a-z]|\\.|\\[|\\])+(\\d)$");
+		boolean hasCommentAfterContext = false;
 
 		while (line != null) {
 			if (line.startsWith("## ")) {
@@ -62,8 +68,9 @@ public class PortalPropertiesPrettier {
 			}
 			if (line.startsWith("    #")) {
 				oldCommentLength = currentComment.length();
-				currentComment.append("\n");
 				currentComment.append(line);
+				currentComment.append("\n");
+				hasCommentAfterContext = true;
 			}
 			if (line.length() == 0) {
 				currentComment.setLength(0);
@@ -74,9 +81,9 @@ public class PortalPropertiesPrettier {
 			while (keys.hasMoreElements()) {
 				String key = (String) keys.nextElement();
 				String value = fixLineBreak(customProperties.getProperty(key));
-				if (line.startsWith("    " + key + "=")
-						|| line.startsWith("    #" + key + "=")) {
-					if (!line.startsWith("    " + key + "=" + value)) {
+
+				if (isLineProperty(line, key)) {
+					if (!line.startsWith("    " + key + "=" + value) || !line.equals("    " + key + "=" + value)) {
 						if (!processedContexts.contains(currentContext)) {
 							pretty.append("\n");
 							pretty.append("##");
@@ -84,20 +91,29 @@ public class PortalPropertiesPrettier {
 							pretty.append(currentContext);
 							pretty.append("\n");
 							pretty.append("##");
+							pretty.append("\n");
 							processedContexts.add(currentContext);
+							hasCommentAfterContext = false;
 						}
 						if (line.startsWith("    #" + key + "=")) {
 							currentComment.setLength(oldCommentLength);
-
-							if (currentComment.length() != 0) {
-								pretty.append(currentComment);
-								pretty.append("\n");
-								currentComment.setLength(0);
-							}
-						} else {
+						}
+						if (currentComment.length() != 0) {
+							pretty.append("\n");
 							pretty.append(currentComment);
+							currentComment.setLength(0);
+							hasCommentAfterContext = true;
+						}
+						if (!hasCommentAfterContext) {
+							pretty.append("\n");
+							hasCommentAfterContext = true;
+						}
+
+						if (printDefaultValue) {
+							pretty.append(line.replace("    ", "    #"));
 							pretty.append("\n");
 						}
+
 						pretty.append("    " + key + "=" + value);
 						pretty.append("\n");
 
@@ -147,25 +163,27 @@ public class PortalPropertiesPrettier {
 
 	protected String getDefaultPortalProperties(String liferayVersion)
 			throws IOException {
-		PortalCache<Serializable, Object> portalCache = SingleVMPoolUtil
-				.getCache(PortalPropertiesPrettier.class.getName());
+		String defaultPortalPropertiesPath = "portal-" + liferayVersion
+				+ ".properties";
+		String portalProperties = (String) defaultPortalProperties
+				.get(defaultPortalPropertiesPath);
 
-		String defaultPortalPropertiesURL = "https://raw.githubusercontent.com/liferay/liferay-portal/"
-				+ liferayVersion + "/portal-impl/src/portal.properties";
-		String defaultPortalProperties = (String) portalCache
-				.get(defaultPortalPropertiesURL);
-
-		if (Validator.isNull(defaultPortalProperties)) {
+		if (Validator.isNull(portalProperties)) {
 			log.info("Missing cache for portal.properties version " + liferayVersion);
 
-			defaultPortalProperties = HttpUtil
-					.URLtoString(defaultPortalPropertiesURL);
+			portalProperties = ContentUtil
+					.get(defaultPortalPropertiesPath);
 
-			portalCache.put(defaultPortalPropertiesURL,
-					defaultPortalProperties, 60 * 60 * 24);
+			defaultPortalProperties.put(defaultPortalPropertiesPath,
+				portalProperties);
 		}
 
-		return defaultPortalProperties;
+		return portalProperties;
+	}
+
+	protected boolean isLineProperty(String line, String key) {
+		return line.startsWith("    " + key + "=")
+			|| line.startsWith("    #" + key + "=");
 	}
 
 	protected String processRemainingCustomProperties(
@@ -177,6 +195,7 @@ public class PortalPropertiesPrettier {
 		StringBuilder customProperties = new StringBuilder();
 
 		customProperties.append("##\n## Custom properties\n##");
+		customProperties.append("\n");
 
 		Enumeration<Object> keys = (Enumeration<Object>) customPortalProperties
 				.keys();
@@ -202,6 +221,7 @@ public class PortalPropertiesPrettier {
 		StringBuilder stringBuilder = new StringBuilder();
 
 		stringBuilder.append("##\n## Removed properties\n##");
+		stringBuilder.append("\n");
 
 		Enumeration<Object> keys = (Enumeration<Object>) removedProperties
 				.keys();
