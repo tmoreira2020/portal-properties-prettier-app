@@ -21,9 +21,12 @@ import java.io.StringReader;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -192,17 +195,17 @@ public class PortalPropertiesPrettier {
 			return StringPool.BLANK;
 		}
 
+		SortedSet<String> keys = new TreeSet<String>(customPortalProperties.stringPropertyNames());
+
 		StringBuilder customProperties = new StringBuilder();
 
 		customProperties.append("##\n## Custom properties\n##");
 		customProperties.append("\n");
 
-		Enumeration<Object> keys = (Enumeration<Object>) customPortalProperties
-				.keys();
-		while (keys.hasMoreElements()) {
-			Object key = (Object) keys.nextElement();
-			String value = fixLineBreak(customPortalProperties.getProperty(key
-					.toString()));
+		Iterator<String> iterator = keys.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			String value = fixLineBreak(customPortalProperties.getProperty(key));
 			customProperties.append("\n");
 			customProperties.append("    " + key + "=" + value);
 		}
