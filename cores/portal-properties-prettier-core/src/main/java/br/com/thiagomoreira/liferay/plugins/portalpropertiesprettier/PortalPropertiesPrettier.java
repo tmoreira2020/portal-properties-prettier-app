@@ -221,17 +221,17 @@ public class PortalPropertiesPrettier {
 
 		log.info("Removing " + removedProperties.size() + " properties");
 
+		SortedSet<String> keys = new TreeSet<String>(removedProperties.stringPropertyNames());
+
 		StringBuilder stringBuilder = new StringBuilder();
 
 		stringBuilder.append("##\n## Removed properties\n##");
 		stringBuilder.append("\n");
 
-		Enumeration<Object> keys = (Enumeration<Object>) removedProperties
-				.keys();
-		while (keys.hasMoreElements()) {
-			Object key = (Object) keys.nextElement();
-			String value = fixLineBreak(removedProperties.getProperty(key
-					.toString()));
+		Iterator<String> iterator = keys.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			String value = fixLineBreak(removedProperties.getProperty(key));
 			stringBuilder.append("\n");
 			stringBuilder.append("    #" + key + "=" + value);
 		}
