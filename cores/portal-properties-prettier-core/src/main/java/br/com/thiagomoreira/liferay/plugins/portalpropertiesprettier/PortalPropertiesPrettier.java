@@ -113,7 +113,11 @@ public class PortalPropertiesPrettier {
 						}
 
 						if (printDefaultValue) {
-							pretty.append(line.replace("    ", "    #"));
+							if (!line.startsWith("    #")) {
+								pretty.append(line.replace("    ", "    #"));
+							} else {
+								pretty.append(line);
+							}
 							pretty.append("\n");
 						}
 
