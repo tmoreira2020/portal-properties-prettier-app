@@ -40,17 +40,20 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 
 		String liferayVersion = ParamUtil.getString(uploadPortletRequest,
 				"liferayVersion");
+		boolean printDefaultValue = ParamUtil.getBoolean(uploadPortletRequest,
+				"printDefaultValue");
 
 		Properties customProperties = PropertiesUtil.load(
 				uploadPortletRequest.getFileAsStream("portalPropertiesFile"),
 				"UTF-8");
 
 		String prettyProperties = prettier.prettify(customProperties,
-				liferayVersion);
+				liferayVersion, printDefaultValue);
 
 		request.setAttribute("portalPrettyProperties", prettyProperties);
 
 		response.setRenderParameter("liferayVersion", liferayVersion);
+		response.setRenderParameter("printDefaultValue", String.valueOf(printDefaultValue));
 
 		incrementCounter(request);
 	}

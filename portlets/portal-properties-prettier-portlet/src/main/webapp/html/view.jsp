@@ -36,6 +36,7 @@
 			<aui:option value="6.1.1-ga2">6.1.1-ga2</aui:option>
 			<aui:option value="6.1.0-ga1">6.1.0-ga1</aui:option>
 		</aui:select>
+		<aui:input name="printDefaultValue" type="checkbox" />
 		<aui:input name="portalPropertiesFile" type="file" />
 	</aui:fieldset>
 
