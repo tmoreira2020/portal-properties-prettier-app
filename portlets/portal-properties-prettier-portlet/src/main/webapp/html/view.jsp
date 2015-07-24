@@ -37,7 +37,9 @@
 			<aui:option value="6.1.0-ga1">6.1.0-ga1</aui:option>
 		</aui:select>
 		<aui:input name="printDefaultValue" type="checkbox" />
-		<aui:input name="portalPropertiesFile" type="file" />
+		<aui:input name="portalPropertiesFile" type="file" >
+			<aui:validator name="required" />
+		</aui:input>
 	</aui:fieldset>
 
 	<aui:button-row>
