@@ -229,8 +229,12 @@ public class PortalPropertiesPrettier {
 
 		StringBuilder stringBuilder = new StringBuilder();
 
-		stringBuilder.append("##\n## Removed properties\n##");
+		stringBuilder.append("##\n## Removed properties\n##\n");
 		stringBuilder.append("\n");
+		stringBuilder.append("    #\n");
+		stringBuilder.append("    # The properties listed below has the exactly same value as in the original\n");
+		stringBuilder.append("    # portal.properties which menas that they are safe to remove.\n");
+		stringBuilder.append("    #");
 
 		Iterator<String> iterator = keys.iterator();
 		while (iterator.hasNext()) {
