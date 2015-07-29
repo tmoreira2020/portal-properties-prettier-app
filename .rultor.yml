@@ -1,9 +1,9 @@
 architect:
 - tmoreira2020
 assets:
-  pubring.gpg: tmoreira0202/home#assets/pubring.gpg
-  secring.gpg: tmoreira0202/home#assets/secring.gpg
-  settings.xml: tmoreira0202/home#assets/portal-properties-prettier-app/settings.xml
+  pubring.gpg: tmoreira2020/home#assets/pubring.gpg
+  secring.gpg: tmoreira2020/home#assets/secring.gpg
+  settings.xml: tmoreira2020/home#assets/portal-properties-prettier-app/settings.xml
 merge:
   script: |-
     mvn clean install --errors --settings ../settings.xml
@@ -19,9 +19,9 @@ env:
 release:
   script: |-
     mvn versions:set "-DnewVersion=${tag}"
-    git commit -am "${tag}"
     sed "s/[0-9].[0-9].[0-9]/${tag}/g" README.md > README.md.releaseBackup
     cp README.md.releaseBackup README.md
+    git commit -am "${tag}"
     mvn clean deploy -Pportal-properties-prettier-app --errors --settings ../settings.xml
   commanders:
   - tmoreira2020
