@@ -47,8 +47,8 @@ public class PortalPropertiesPrettier {
 		return prettify(customProperties, liferayVersion, false);
 	}
 
-	public String prettify(Properties customProperties, String liferayVersion, boolean printDefaultValue)
-			throws Exception {
+	public String prettify(Properties customProperties, String liferayVersion,
+			boolean printDefaultValue) throws Exception {
 
 		log.info("Processing " + customProperties.size() + " custom properties");
 
@@ -86,7 +86,8 @@ public class PortalPropertiesPrettier {
 				String value = fixLineBreak(customProperties.getProperty(key));
 
 				if (isLineProperty(line, key)) {
-					if (!line.startsWith("    " + key + "=" + value) || !line.equals("    " + key + "=" + value)) {
+					if (!line.startsWith("    " + key + "=" + value)
+							|| !line.equals("    " + key + "=" + value)) {
 						if (!processedContexts.contains(currentContext)) {
 							pretty.append("\n");
 							pretty.append("##");
@@ -176,13 +177,13 @@ public class PortalPropertiesPrettier {
 				.get(defaultPortalPropertiesPath);
 
 		if (Validator.isNull(portalProperties)) {
-			log.info("Missing cache for portal.properties version " + liferayVersion);
+			log.info("Missing cache for portal.properties version "
+					+ liferayVersion);
 
-			portalProperties = ContentUtil
-					.get(defaultPortalPropertiesPath);
+			portalProperties = ContentUtil.get(defaultPortalPropertiesPath);
 
 			defaultPortalProperties.put(defaultPortalPropertiesPath,
-				portalProperties);
+					portalProperties);
 		}
 
 		return portalProperties;
@@ -190,7 +191,7 @@ public class PortalPropertiesPrettier {
 
 	protected boolean isLineProperty(String line, String key) {
 		return line.startsWith("    " + key + "=")
-			|| line.startsWith("    #" + key + "=");
+				|| line.startsWith("    #" + key + "=");
 	}
 
 	protected String processRemainingCustomProperties(
@@ -199,7 +200,8 @@ public class PortalPropertiesPrettier {
 			return StringPool.BLANK;
 		}
 
-		SortedSet<String> keys = new TreeSet<String>(customPortalProperties.stringPropertyNames());
+		SortedSet<String> keys = new TreeSet<String>(
+				customPortalProperties.stringPropertyNames());
 
 		StringBuilder customProperties = new StringBuilder();
 
@@ -225,15 +227,18 @@ public class PortalPropertiesPrettier {
 
 		log.info("Removing " + removedProperties.size() + " properties");
 
-		SortedSet<String> keys = new TreeSet<String>(removedProperties.stringPropertyNames());
+		SortedSet<String> keys = new TreeSet<String>(
+				removedProperties.stringPropertyNames());
 
 		StringBuilder stringBuilder = new StringBuilder();
 
 		stringBuilder.append("##\n## Removed properties\n##\n");
 		stringBuilder.append("\n");
 		stringBuilder.append("    #\n");
-		stringBuilder.append("    # The properties listed below has the exactly same value as in the original\n");
-		stringBuilder.append("    # portal.properties which menas that they are safe to remove.\n");
+		stringBuilder
+				.append("    # The properties listed below has the exactly same value as in the original\n");
+		stringBuilder
+				.append("    # portal.properties which menas that they are safe to remove.\n");
 		stringBuilder.append("    #");
 
 		Iterator<String> iterator = keys.iterator();

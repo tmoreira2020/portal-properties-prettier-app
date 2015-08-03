@@ -53,7 +53,8 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 		request.setAttribute("portalPrettyProperties", prettyProperties);
 
 		response.setRenderParameter("liferayVersion", liferayVersion);
-		response.setRenderParameter("printDefaultValue", String.valueOf(printDefaultValue));
+		response.setRenderParameter("printDefaultValue",
+				String.valueOf(printDefaultValue));
 
 		incrementCounter(request);
 	}
