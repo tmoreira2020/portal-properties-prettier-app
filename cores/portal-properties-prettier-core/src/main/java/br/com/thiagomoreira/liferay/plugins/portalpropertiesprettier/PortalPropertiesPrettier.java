@@ -18,6 +18,7 @@ package br.com.thiagomoreira.liferay.plugins.portalpropertiesprettier;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,12 +33,15 @@ import java.util.regex.Pattern;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.PropertiesUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.util.ContentUtil;
 
 public class PortalPropertiesPrettier {
 
+	protected String[] portalFileNames = {"6.1.0-ga1", "6.1.1-ga2",
+			"6.1.2-ga3", "6.2.0-ga1", "6.2.1-ga2", "6.2.2-ga3", "6.2.3-ga4"};
 	protected Map<String, String> defaultPortalProperties = new HashMap<>();
 	private static Log log = LogFactoryUtil
 			.getLog(PortalPropertiesPrettier.class);
@@ -154,7 +158,12 @@ public class PortalPropertiesPrettier {
 			line = reader.readLine();
 		}
 
+		String obsoleteProperties = processObsoleteCustomProperties(
+				liferayVersion, customProperties);
+
 		pretty.insert(0, processRemainingCustomProperties(customProperties));
+
+		pretty.insert(0, obsoleteProperties);
 
 		pretty.insert(0, processRemovedProperties(removedProperties));
 
@@ -192,6 +201,62 @@ public class PortalPropertiesPrettier {
 	protected boolean isLineProperty(String line, String key) {
 		return line.startsWith("    " + key + "=")
 				|| line.startsWith("    #" + key + "=");
+	}
+
+	protected String processObsoleteCustomProperties(String liferayVersion,
+			Properties customPortalProperties) throws IOException {
+		if (customPortalProperties.isEmpty()) {
+			return StringPool.BLANK;
+		}
+
+		StringBuilder obsoleteProperties = new StringBuilder();
+		int index = Arrays.binarySearch(portalFileNames, liferayVersion);
+
+		for (int i = index; i >= 0; i--) {
+			boolean processedContext = false;
+			Properties portalProperties = PropertiesUtil
+					.load(getDefaultPortalProperties(portalFileNames[i]));
+			SortedSet<String> keys = new TreeSet<String>(
+					customPortalProperties.stringPropertyNames());
+			Iterator<String> iterator = keys.iterator();
+
+			while (iterator.hasNext()) {
+				String key = iterator.next();
+
+				if (portalProperties.containsKey(key)) {
+					if (!processedContext) {
+						obsoleteProperties
+								.append("##\n## Obsolete properties of ");
+						obsoleteProperties.append(portalFileNames[i]);
+						obsoleteProperties.append("\n##\n\n");
+						obsoleteProperties.append("    #\n");
+						obsoleteProperties
+								.append("    # The properties listed below are obsolete for version ");
+						obsoleteProperties.append(liferayVersion);
+						obsoleteProperties.append(" which\n");
+						obsoleteProperties
+								.append("    # means that they don't have any influence in how Liferay is configured\n");
+						obsoleteProperties
+								.append("    # and are safe be to removed.\n");
+						obsoleteProperties.append("    #");
+
+						processedContext = true;
+					}
+
+					String value = fixLineBreak(customPortalProperties.getProperty(key));
+
+					obsoleteProperties.append("\n");
+					obsoleteProperties.append("    #" + key + "=" + value);
+					customPortalProperties.remove(key);
+				}
+			}
+			if (processedContext) {
+				obsoleteProperties.append("\n");
+				obsoleteProperties.append("\n");
+			}
+		}
+
+		return obsoleteProperties.toString();
 	}
 
 	protected String processRemainingCustomProperties(
