@@ -303,7 +303,7 @@ public class PortalPropertiesPrettier {
 		stringBuilder
 				.append("    # The properties listed below has the exactly same value as in the original\n");
 		stringBuilder
-				.append("    # portal.properties which menas that they are safe to remove.\n");
+				.append("    # portal.properties which means that they are safe to be removed.\n");
 		stringBuilder.append("    #");
 
 		Iterator<String> iterator = keys.iterator();
