@@ -242,7 +242,7 @@ public class PortalPropertiesPrettier {
 			return StringPool.BLANK;
 		}
 
-		StringBuilder obsoleteProperties = new StringBuilder();
+		StringBuilder stringBuilder = new StringBuilder();
 		int index = Arrays.binarySearch(portalFileNames, liferayVersion);
 
 		for (int i = index; i >= 0; i--) {
@@ -258,20 +258,19 @@ public class PortalPropertiesPrettier {
 
 				if (portalProperties.containsKey(key)) {
 					if (!processedContext) {
-						obsoleteProperties
-								.append("##\n## Obsolete properties of ");
-						obsoleteProperties.append(portalFileNames[i]);
-						obsoleteProperties.append("\n##\n\n");
-						obsoleteProperties.append("    #\n");
-						obsoleteProperties
+						stringBuilder.append("##\n## Obsolete properties of ");
+						stringBuilder.append(portalFileNames[i]);
+						stringBuilder.append("\n##\n\n");
+						stringBuilder.append("    #\n");
+						stringBuilder
 								.append("    # The properties listed below are obsolete for version ");
-						obsoleteProperties.append(liferayVersion);
-						obsoleteProperties.append(" which\n");
-						obsoleteProperties
+						stringBuilder.append(liferayVersion);
+						stringBuilder.append(" which\n");
+						stringBuilder
 								.append("    # means that they don't have any influence in how Liferay is configured\n");
-						obsoleteProperties
+						stringBuilder
 								.append("    # and are safe be to removed.\n");
-						obsoleteProperties.append("    #");
+						stringBuilder.append("    #");
 
 						processedContext = true;
 					}
@@ -279,18 +278,18 @@ public class PortalPropertiesPrettier {
 					String value = fixLineBreak(customPortalProperties
 							.getProperty(key));
 
-					obsoleteProperties.append("\n");
-					obsoleteProperties.append("    #" + key + "=" + value);
+					stringBuilder.append("\n");
+					stringBuilder.append("    #" + key + "=" + value);
 					customPortalProperties.remove(key);
 				}
 			}
 			if (processedContext) {
-				obsoleteProperties.append("\n");
-				obsoleteProperties.append("\n");
+				stringBuilder.append("\n");
+				stringBuilder.append("\n");
 			}
 		}
 
-		return obsoleteProperties.toString();
+		return stringBuilder.toString();
 	}
 
 	protected String processRemainingCustomProperties(
@@ -302,21 +301,21 @@ public class PortalPropertiesPrettier {
 		SortedSet<String> keys = new TreeSet<String>(
 				customPortalProperties.stringPropertyNames());
 
-		StringBuilder customProperties = new StringBuilder();
+		StringBuilder stringBuilder = new StringBuilder();
 
-		customProperties.append("##\n## Custom properties\n##");
-		customProperties.append("\n");
+		stringBuilder.append("##\n## Custom properties\n##");
+		stringBuilder.append("\n");
 
 		Iterator<String> iterator = keys.iterator();
 		while (iterator.hasNext()) {
 			String key = iterator.next();
 			String value = fixLineBreak(customPortalProperties.getProperty(key));
-			customProperties.append("\n");
-			customProperties.append("    " + key + "=" + value);
+			stringBuilder.append("\n");
+			stringBuilder.append("    " + key + "=" + value);
 		}
-		customProperties.append("\n");
+		stringBuilder.append("\n");
 
-		return customProperties.toString();
+		return stringBuilder.toString();
 	}
 
 	protected String processRemovedProperties(Properties removedProperties) {
@@ -360,7 +359,7 @@ public class PortalPropertiesPrettier {
 
 		SortedSet<String> customKeys = new TreeSet<String>(
 				customPortalProperties.stringPropertyNames());
-		StringBuilder customProperties = new StringBuilder();
+		StringBuilder stringBuilder = new StringBuilder();
 
 		boolean processedContext = false;
 		StringMetric metric = StringMetricBuilder
@@ -385,35 +384,35 @@ public class PortalPropertiesPrettier {
 
 			if (distance > 0.9) {
 				if (!processedContext) {
-					customProperties.append("##\n## Typo properties\n##");
-					customProperties.append("\n\n");
-					customProperties.append("    #\n");
-					customProperties
+					stringBuilder.append("##\n## Typo properties\n##");
+					stringBuilder.append("\n\n");
+					stringBuilder.append("    #\n");
+					stringBuilder
 							.append("    # The properties listed below looks like that has a typo in its declaration\n");
-					customProperties
+					stringBuilder
 							.append("    # which means that they don't have any influence in how Liferay is configured.\n");
-					customProperties
+					stringBuilder
 							.append("    # The system suggested the correct property name in the comments.\n");
-					customProperties.append("    #");
+					stringBuilder.append("    #");
 
 					processedContext = true;
 				}
 				String value = fixLineBreak(customPortalProperties
 						.getProperty(customKey));
 
-				customProperties.append("\n");
-				customProperties.append("    #" + key + "=" + value);
-				customProperties.append("\n");
-				customProperties.append("    " + customKey + "=" + value);
+				stringBuilder.append("\n");
+				stringBuilder.append("    #" + key + "=" + value);
+				stringBuilder.append("\n");
+				stringBuilder.append("    " + customKey + "=" + value);
 				customPortalProperties.remove(customKey);
 			}
 		}
 
 		if (processedContext) {
-			customProperties.append("\n");
-			customProperties.append("\n");
+			stringBuilder.append("\n");
+			stringBuilder.append("\n");
 		}
 
-		return customProperties.toString();
+		return stringBuilder.toString();
 	}
 }
