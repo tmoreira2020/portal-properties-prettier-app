@@ -23,6 +23,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -30,6 +31,14 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.simmetrics.StringMetric;
+import org.simmetrics.StringMetricBuilder;
+import org.simmetrics.metrics.CosineSimilarity;
+import org.simmetrics.simplifiers.Case;
+import org.simmetrics.simplifiers.WordCharacters;
+import org.simmetrics.tokenizers.QGram;
+import org.simmetrics.tokenizers.Whitespace;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -161,7 +170,12 @@ public class PortalPropertiesPrettier {
 		String obsoleteProperties = processObsoleteCustomProperties(
 				liferayVersion, customProperties);
 
+		String typoProperties = processTypoCustomProperties(liferayVersion,
+				customProperties);
+
 		pretty.insert(0, processRemainingCustomProperties(customProperties));
+
+		pretty.insert(0, typoProperties);
 
 		pretty.insert(0, obsoleteProperties);
 
@@ -196,6 +210,25 @@ public class PortalPropertiesPrettier {
 		}
 
 		return portalProperties;
+	}
+
+	protected Set<String> getProperyKeys(String liferayVersion)
+			throws IOException {
+		String properties = getDefaultPortalProperties(liferayVersion);
+		Set<String> keys = new HashSet<String>();
+		Pattern pattern = Pattern
+				.compile("    ((\\w|\\.)+)=|    #((\\w|\\.)+)=");
+		Matcher matcher = pattern.matcher(properties);
+
+		while (matcher.find()) {
+			String property = matcher.group(1);
+			if (Validator.isNull(property)) {
+				property = matcher.group(3);
+			}
+			keys.add(property);
+		}
+
+		return keys;
 	}
 
 	protected boolean isLineProperty(String line, String key) {
@@ -243,7 +276,8 @@ public class PortalPropertiesPrettier {
 						processedContext = true;
 					}
 
-					String value = fixLineBreak(customPortalProperties.getProperty(key));
+					String value = fixLineBreak(customPortalProperties
+							.getProperty(key));
 
 					obsoleteProperties.append("\n");
 					obsoleteProperties.append("    #" + key + "=" + value);
@@ -316,5 +350,70 @@ public class PortalPropertiesPrettier {
 		stringBuilder.append("\n\n");
 
 		return stringBuilder.toString();
+	}
+
+	protected String processTypoCustomProperties(String liferayVersion,
+			Properties customPortalProperties) throws IOException {
+		if (customPortalProperties.isEmpty()) {
+			return StringPool.BLANK;
+		}
+
+		SortedSet<String> customKeys = new TreeSet<String>(
+				customPortalProperties.stringPropertyNames());
+		StringBuilder customProperties = new StringBuilder();
+
+		boolean processedContext = false;
+		StringMetric metric = StringMetricBuilder
+				.with(new CosineSimilarity<String>())
+				.simplify(new Case.Lower(Locale.ENGLISH))
+				.simplify(new WordCharacters()).tokenize(new Whitespace())
+				.tokenize(new QGram(2)).build();
+		Set<String> defaultKeys = getProperyKeys(liferayVersion);
+
+		for (String customKey : customKeys) {
+			float distance = 0;
+			String key = null;
+
+			for (String defaultKey : defaultKeys) {
+				float temp = metric.compare(defaultKey, customKey);
+
+				if (temp > distance) {
+					distance = temp;
+					key = defaultKey;
+				}
+			}
+
+			if (distance > 0.9) {
+				if (!processedContext) {
+					customProperties.append("##\n## Typo properties\n##");
+					customProperties.append("\n\n");
+					customProperties.append("    #\n");
+					customProperties
+							.append("    # The properties listed below looks like that has a typo in its declaration\n");
+					customProperties
+							.append("    # which means that they don't have any influence in how Liferay is configured.\n");
+					customProperties
+							.append("    # The system suggested the correct property name in the comments.\n");
+					customProperties.append("    #");
+
+					processedContext = true;
+				}
+				String value = fixLineBreak(customPortalProperties
+						.getProperty(customKey));
+
+				customProperties.append("\n");
+				customProperties.append("    #" + key + "=" + value);
+				customProperties.append("\n");
+				customProperties.append("    " + customKey + "=" + value);
+				customPortalProperties.remove(customKey);
+			}
+		}
+
+		if (processedContext) {
+			customProperties.append("\n");
+			customProperties.append("\n");
+		}
+
+		return customProperties.toString();
 	}
 }

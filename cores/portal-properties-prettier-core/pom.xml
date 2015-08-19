@@ -35,6 +35,10 @@
 			<artifactId>commons-io</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.github.mpkorstanje</groupId>
+			<artifactId>simmetrics-core</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.liferay.portal</groupId>
 			<artifactId>portal-service</artifactId>
 		</dependency>
