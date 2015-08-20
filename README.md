@@ -4,12 +4,14 @@ Portal Properties Prettier App
 [![Coverage Status](https://coveralls.io/repos/tmoreira2020/portal-properties-prettier-app/badge.svg?branch=master)](https://coveralls.io/r/tmoreira2020/portal-properties-prettier-app?branch=master)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/br.com.thiagomoreira.liferay.plugins.portal-properties-prettier-app/portal-properties-prettier-app/badge.svg)](https://maven-badges.herokuapp.com/maven-central/br.com.thiagomoreira.liferay.plugins.portal-properties-prettier-app/portal-properties-prettier-app)
 
-Turns a messy Liferay portal-\*.properties into a clean and well organised portal-\*.properties. Basically it does 4 things:
+Turns a messy Liferay portal-\*.properties into a clean and well organised portal-\*.properties. Basically it does 6 things:
 
-* Removes properties that has the same values as the original portal.properties located at portal-impl.jar
+* Identify, group and comment properties that has the same values as the original portal.properties located at portal-impl.jar
+* Identify and group properties that are obsolete for the given Liferay version
+* Identify, group and recommend a fix for properties that has typos in its key's declaration
+* Group custom properties in a section in the beginning of the file
 * Sort the properties in the same order as the original portal.properties
-* Add the comments for each property as definied in the original portal.properties
-* Group the custom properties in the beginning of the file
+* Add the original comments for each property as definied in the portal.properties file
 
 ### Online version
 
