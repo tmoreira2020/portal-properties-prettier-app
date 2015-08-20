@@ -1,7 +1,7 @@
 Portal Properties Prettier App
 ==========
 [![Build Status](https://travis-ci.org/tmoreira2020/portal-properties-prettier-app.svg?branch=master)](https://travis-ci.org/tmoreira2020/portal-properties-prettier-app)
-[![Coverage Status](https://coveralls.io/repos/tmoreira2020/portal-properties-prettier-app/badge.png?branch=master)](https://coveralls.io/r/tmoreira2020/portal-properties-prettier-app?branch=master)
+[![Coverage Status](https://coveralls.io/repos/tmoreira2020/portal-properties-prettier-app/badge.svg?branch=master)](https://coveralls.io/r/tmoreira2020/portal-properties-prettier-app?branch=master)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/br.com.thiagomoreira.liferay.plugins.portal-properties-prettier-app/portal-properties-prettier-app/badge.svg)](https://maven-badges.herokuapp.com/maven-central/br.com.thiagomoreira.liferay.plugins.portal-properties-prettier-app/portal-properties-prettier-app)
 
 Turns a messy Liferay portal-\*.properties into a clean and well organised portal-\*.properties. Basically it does 4 things:
