@@ -61,7 +61,7 @@ public class PortalPropertiesPrettier {
 	}
 
 	public String prettify(Properties customProperties, String liferayVersion,
-			boolean printDefaultValue) throws Exception {
+			boolean printDefaultValue) throws IOException {
 
 		log.info("Processing " + customProperties.size() + " custom properties");
 

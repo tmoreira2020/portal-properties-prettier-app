@@ -15,10 +15,12 @@
  */
 package br.com.thiagomoreira.liferay.plugins.portalpropertiesprettier;
 
+import java.io.IOException;
 import java.util.Properties;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
 import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
 
@@ -34,7 +36,7 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 	protected PortalPropertiesPrettier prettier = new PortalPropertiesPrettier();
 
 	public void prettify(ActionRequest request, ActionResponse response)
-			throws Exception {
+			throws IOException, PortletException {
 		UploadPortletRequest uploadPortletRequest = PortalUtil
 				.getUploadPortletRequest(request);
 
@@ -59,7 +61,8 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 		incrementCounter(request);
 	}
 
-	protected void incrementCounter(PortletRequest request) throws Exception {
+	protected void incrementCounter(PortletRequest request) throws IOException,
+			PortletException {
 		PortletPreferences preferences = request.getPreferences();
 
 		int count = GetterUtil.getInteger(preferences.getValue("counter", "0"));
