@@ -7,7 +7,7 @@ Portal Properties Prettier App
 Turns a messy Liferay portal-\*.properties into a clean and well organised portal-\*.properties. Basically it does 6 things:
 
 * Identify, group and comment properties that has the same values as the original portal.properties located at portal-impl.jar
-* Identify and group properties that are obsolete for the given Liferay version
+* Identify, group and comment properties that are obsolete for the given Liferay version
 * Identify, group and recommend a fix for properties that has typos in its key's declaration
 * Group custom properties in a section in the beginning of the file
 * Sort the properties in the same order as the original portal.properties
@@ -15,8 +15,8 @@ Turns a messy Liferay portal-\*.properties into a clean and well organised porta
 
 ### Online version
 
-You can test it on http://portalproperti.es
  
+You can test it on [http://portalproperti.es](http://portalproperti.es)
 
 ### Command line version
 
