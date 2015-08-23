@@ -22,6 +22,10 @@
 		<display-name>portal-properties-prettier-portlet</display-name>
 		<portlet-class>br.com.thiagomoreira.liferay.plugins.portalpropertiesprettier.PortalPropertiesPrettierPortlet</portlet-class>
 		<init-param>
+			<name>copy-request-parameters</name>
+			<value>true</value>
+		</init-param>
+		<init-param>
 			<name>view-template</name>
 			<value>/html/view.jsp</value>
 		</init-param>

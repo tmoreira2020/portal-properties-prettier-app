@@ -16,6 +16,8 @@
 package br.com.thiagomoreira.liferay.plugins.portalpropertiesprettier;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.StringReader;
 import java.util.Properties;
 
 import javax.portlet.ActionRequest;
@@ -23,6 +25,10 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+
+import org.apache.commons.io.IOUtils;
 
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -37,11 +43,29 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 
 	public void prettify(ActionRequest request, ActionResponse response)
 			throws IOException, PortletException {
+
+		String prettyProperties = prettify(request);
+
+		request.setAttribute("portalPrettyProperties", prettyProperties);
+	}
+
+	public void serveResource(ResourceRequest request, ResourceResponse response)
+			throws IOException, PortletException {
+
+		String prettyProperties = prettify(request);
+
+		OutputStream out = response.getPortletOutputStream();
+		IOUtils.copy(new StringReader(prettyProperties), out);
+		IOUtils.closeQuietly(out);
+	}
+
+	protected String prettify(PortletRequest request)
+			throws IOException, PortletException {
 		UploadPortletRequest uploadPortletRequest = PortalUtil
 				.getUploadPortletRequest(request);
 
 		String liferayVersion = ParamUtil.getString(uploadPortletRequest,
-				"liferayVersion");
+				"liferayVersion", "6.2.3-ga4");
 		boolean printDefaultValue = ParamUtil.getBoolean(uploadPortletRequest,
 				"printDefaultValue");
 
@@ -52,13 +76,9 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 		String prettyProperties = prettier.prettify(customProperties,
 				liferayVersion, printDefaultValue);
 
-		request.setAttribute("portalPrettyProperties", prettyProperties);
-
-		response.setRenderParameter("liferayVersion", liferayVersion);
-		response.setRenderParameter("printDefaultValue",
-				String.valueOf(printDefaultValue));
-
 		incrementCounter(request);
+
+		return prettyProperties;
 	}
 
 	protected void incrementCounter(PortletRequest request) throws IOException,

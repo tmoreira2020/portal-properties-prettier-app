@@ -17,6 +17,27 @@ Turns a messy Liferay portal-\*.properties into a clean and well organised porta
 
 You can test it on http://portalproperti.es
  
+
+### Command line version
+
+You can also call the service from command line using [curl](http://curl.haxx.se/). If you don't provide a Liferay version it will use the default that is 6.2.3-ga4.
+
+```shell
+curl http://portalproperti.es/prettify -F portalPropertiesFile=@/path/to/portal-ext.properties
+```
+
+If you need to use a different Liferay version, for instance 6.1.0-ga1, you must use the following format
+
+```shell
+curl http://portalproperti.es/prettify/6.1.0-ga1 -F portalPropertiesFile=@/path/to/portal-ext.properties
+```
+
+Or if you need to print the original value of each customized property you must call the service this way
+
+```shell
+curl http://portalproperti.es/prettify/6.2.3-g4/true -F portalPropertiesFile=@/path/to/portal-ext.properties
+```
+
 ### License
 
 Portal Properties Prettier App is licensed under [Apache 2](http://www.apache.org/licenses/LICENSE-2.0) license.
