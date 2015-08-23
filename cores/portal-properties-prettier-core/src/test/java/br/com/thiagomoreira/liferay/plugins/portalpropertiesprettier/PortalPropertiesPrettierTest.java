@@ -140,10 +140,10 @@ public class PortalPropertiesPrettierTest {
 	}
 
 	@Test
-	public void testIssue28() throws Exception {
+	public void testIssue30() throws Exception {
 		PortalPropertiesPrettier prettier = new PortalPropertiesPrettier();
-		String expected = getContent("/portal-issue-28-expected.properties");
-		String actual = getContent("/portal-issue-28.properties");
+		String expected = getContent("/portal-issue-30-expected.properties");
+		String actual = getContent("/portal-issue-30.properties");
 		Properties customProperties = PropertiesUtil.load(actual);
 
 		actual = prettier.prettify(customProperties, "6.2.3-ga4", false);
