@@ -52,8 +52,20 @@ public class PortalPropertiesPrettier {
 	protected String[] portalFileNames = {"6.1.0-ga1", "6.1.1-ga2",
 			"6.1.2-ga3", "6.2.0-ga1", "6.2.1-ga2", "6.2.2-ga3", "6.2.3-ga4"};
 	protected Map<String, String> defaultPortalProperties = new HashMap<>();
+	protected Map<String, String> jdbcMapping = new HashMap<>();
 	private static Log log = LogFactoryUtil
 			.getLog(PortalPropertiesPrettier.class);
+
+	public PortalPropertiesPrettier() {
+		jdbcMapping.put("derby", "Derby");
+		jdbcMapping.put("hsqldb", "Hypersonic");
+		jdbcMapping.put("ingres", "Ingres");
+		jdbcMapping.put("mysql", "MySQL");
+		jdbcMapping.put("oracle", "Oracle");
+		jdbcMapping.put("postgresql", "Postgresql");
+		jdbcMapping.put("sqlserver", "SQL Server");
+		jdbcMapping.put("sybase", "Sybase");
+	}
 
 	public String prettify(Properties customProperties, String liferayVersion)
 			throws Exception {
@@ -137,6 +149,20 @@ public class PortalPropertiesPrettier {
 
 						pretty.append("    " + key + "=" + value);
 						pretty.append("\n");
+
+						if (key.equals("jdbc.default.url")) {
+							for (String jdbcDriverType : jdbcMapping.keySet()) {
+								if (value.contains(jdbcDriverType)) {
+									int start = pretty.indexOf("    # DB2");
+									int end = start + 9;
+									String replace = "    # "
+											+ jdbcMapping.get(jdbcDriverType);
+
+									pretty.replace(start, end, replace);
+									break;
+								}
+							}
+						}
 
 						Matcher matcher = keyDigitPattern.matcher(key);
 						if (matcher.matches()) {

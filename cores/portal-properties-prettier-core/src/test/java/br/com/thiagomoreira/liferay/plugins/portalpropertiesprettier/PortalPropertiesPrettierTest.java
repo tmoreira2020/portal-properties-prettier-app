@@ -128,6 +128,54 @@ public class PortalPropertiesPrettierTest {
 	}
 
 	@Test
+	public void testIssue27DB2() throws Exception {
+		PortalPropertiesPrettier prettier = new PortalPropertiesPrettier();
+		String expected = getContent("/portal-issue-27-db2-expected.properties");
+		String actual = getContent("/portal-issue-27-db2.properties");
+		Properties customProperties = PropertiesUtil.load(actual);
+
+		actual = prettier.prettify(customProperties, "6.2.3-ga4", false);
+
+		Assert.assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testIssue27Derby() throws Exception {
+		PortalPropertiesPrettier prettier = new PortalPropertiesPrettier();
+		String expected = getContent("/portal-issue-27-derby-expected.properties");
+		String actual = getContent("/portal-issue-27-derby.properties");
+		Properties customProperties = PropertiesUtil.load(actual);
+
+		actual = prettier.prettify(customProperties, "6.2.3-ga4", false);
+
+		Assert.assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testIssue27MySQL() throws Exception {
+		PortalPropertiesPrettier prettier = new PortalPropertiesPrettier();
+		String expected = getContent("/portal-issue-27-mysql-expected.properties");
+		String actual = getContent("/portal-issue-27-mysql.properties");
+		Properties customProperties = PropertiesUtil.load(actual);
+
+		actual = prettier.prettify(customProperties, "6.2.3-ga4", false);
+
+		Assert.assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testIssue27SQLServer() throws Exception {
+		PortalPropertiesPrettier prettier = new PortalPropertiesPrettier();
+		String expected = getContent("/portal-issue-27-sqlserver-expected.properties");
+		String actual = getContent("/portal-issue-27-sqlserver.properties");
+		Properties customProperties = PropertiesUtil.load(actual);
+
+		actual = prettier.prettify(customProperties, "6.2.3-ga4", false);
+
+		Assert.assertEquals(expected, actual);
+	}
+
+	@Test
 	public void testIssue28() throws Exception {
 		PortalPropertiesPrettier prettier = new PortalPropertiesPrettier();
 		String expected = getContent("/portal-issue-28-expected.properties");
