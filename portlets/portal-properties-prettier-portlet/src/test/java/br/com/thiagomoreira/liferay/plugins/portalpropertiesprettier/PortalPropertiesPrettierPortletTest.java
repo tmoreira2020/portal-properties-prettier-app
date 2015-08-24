@@ -15,14 +15,26 @@
  */
 package br.com.thiagomoreira.liferay.plugins.portalpropertiesprettier;
 
-import javax.portlet.PortletPreferences;
+import java.io.ByteArrayInputStream;
+import java.util.Properties;
 
+import javax.portlet.PortletPreferences;
+import javax.portlet.PortletRequest;
+
+import static org.easymock.EasyMock.*;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.mock.web.portlet.MockActionRequest;
+import org.springframework.mock.web.portlet.MockActionResponse;
 import org.springframework.mock.web.portlet.MockPortletPreferences;
 import org.springframework.mock.web.portlet.MockPortletRequest;
+import org.springframework.mock.web.portlet.MockResourceRequest;
+import org.springframework.mock.web.portlet.MockResourceResponse;
 
+import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.util.Portal;
+import com.liferay.portal.util.PortalUtil;
 
 public class PortalPropertiesPrettierPortletTest {
 
@@ -44,5 +56,93 @@ public class PortalPropertiesPrettierPortletTest {
 		String actual = preferences.getValue("counter", "0");
 
 		Assert.assertEquals(counter + 1, GetterUtil.getInteger(actual));
+	}
+
+	@Test
+	public void testPrettifyActionRequestActionResponse() throws Exception {
+		MockActionRequest request = new MockActionRequest();
+		MockActionResponse response = new MockActionResponse();
+
+		PortalPropertiesPrettierPortlet portlet = createMockBuilder(
+				PortalPropertiesPrettierPortlet.class).addMockedMethod(
+				"prettify", PortletRequest.class).createMock();
+		String expected = "expected";
+
+		expect(portlet.prettify(request)).andReturn(expected);
+		replay(portlet);
+
+		portlet.prettify(request, response);
+
+		Assert.assertEquals(expected,
+				request.getAttribute("portalPrettyProperties"));
+		verify(portlet);
+	}
+
+	@Test
+	public void testPrettifyPortletRequest() throws Exception {
+		String liferayVersion = "6.2.3-ga4";
+		boolean printDefaultValue = false;
+		MockActionRequest request = new MockActionRequest();
+		String expected = "expected";
+		ByteArrayInputStream in = new ByteArrayInputStream(expected.getBytes());
+		UploadPortletRequest uploadPortletRequest = createNiceMock(UploadPortletRequest.class);
+
+		expect(uploadPortletRequest.getParameter("liferayVersion")).andReturn(
+				liferayVersion);
+		expect(uploadPortletRequest.getParameter("printDefaultValue"))
+				.andReturn(String.valueOf(printDefaultValue));
+		expect(uploadPortletRequest.getFileAsStream("portalPropertiesFile"))
+				.andReturn(in);
+		replay(uploadPortletRequest);
+
+		Portal portal = createMock(Portal.class);
+
+		expect(portal.getUploadPortletRequest(request)).andReturn(
+				uploadPortletRequest);
+		replay(portal);
+		new PortalUtil().setPortal(portal);
+
+		PortalPropertiesPrettierPortlet portlet = createMockBuilder(
+				PortalPropertiesPrettierPortlet.class).addMockedMethod(
+				"incrementCounter").createMock();
+
+		PortalPropertiesPrettier prettier = createMock(PortalPropertiesPrettier.class);
+		expect(
+				prettier.prettify(anyObject(Properties.class),
+						eq(liferayVersion), eq(printDefaultValue))).andReturn(
+				expected);
+		replay(prettier);
+
+		portlet.prettier = prettier;
+
+		portlet.incrementCounter(request);
+		replay(portlet);
+
+		String actual = portlet.prettify(request);
+
+		Assert.assertEquals(expected, actual);
+		verify(portlet);
+		verify(portal);
+		verify(uploadPortletRequest);
+		verify(prettier);
+	}
+
+	@Test
+	public void testServeResource() throws Exception {
+		MockResourceRequest request = new MockResourceRequest();
+		MockResourceResponse response = new MockResourceResponse();
+
+		PortalPropertiesPrettierPortlet portlet = createMockBuilder(
+				PortalPropertiesPrettierPortlet.class).addMockedMethod(
+				"prettify", PortletRequest.class).createMock();
+		String expected = "expected";
+
+		expect(portlet.prettify(request)).andReturn(expected);
+		replay(portlet);
+
+		portlet.serveResource(request, response);
+
+		Assert.assertEquals(expected, response.getContentAsString());
+		verify(portlet);
 	}
 }
