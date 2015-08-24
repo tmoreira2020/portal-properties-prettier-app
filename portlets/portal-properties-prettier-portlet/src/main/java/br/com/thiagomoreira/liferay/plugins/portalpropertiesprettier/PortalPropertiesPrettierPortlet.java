@@ -59,8 +59,8 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 		IOUtils.closeQuietly(out);
 	}
 
-	protected String prettify(PortletRequest request)
-			throws IOException, PortletException {
+	protected String prettify(PortletRequest request) throws IOException,
+			PortletException {
 		UploadPortletRequest uploadPortletRequest = PortalUtil
 				.getUploadPortletRequest(request);
 
