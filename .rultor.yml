@@ -19,7 +19,9 @@ env:
 release:
   script: |-
     mvn versions:set "-DnewVersion=${tag}"
-    sed "s/[0-9].[0-9].[0-9]/${tag}/g" README.md > README.md.releaseBackup
+    sed "s/>[0-9].[0-9].[0-9]</>${tag}</g" README.md > README.md.releaseBackup
+    cp README.md.releaseBackup README.md
+    sed "s/\"[0-9].[0-9].[0-9]\"/\"${tag}\"/g" README.md > README.md.releaseBackup
     cp README.md.releaseBackup README.md
     git commit -am "${tag}"
     mvn clean deploy -Psonatype-oss-release --errors --settings ../settings.xml
