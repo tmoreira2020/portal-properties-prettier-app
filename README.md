@@ -20,22 +20,22 @@ You can test it on [http://portalproperti.es](http://portalproperti.es)
 
 ### Command line version
 
-You can also call the service from command line using [curl](http://curl.haxx.se/). If you don't provide a Liferay version it will use the default that is 1.4.0-ga4.
+You can also call the service from command line using [curl](http://curl.haxx.se/). If you don't provide a Liferay version it will use the default that is 6.2.3-ga4.
 
 ```shell
 curl http://portalproperti.es/prettify -F portalPropertiesFile=@/path/to/portal-ext.properties
 ```
 
-If you need to use a different Liferay version, for instance 1.4.0-ga1, you must use the following format
+If you need to use a different Liferay version, for instance 6.1.0-ga1, you must use the following format
 
 ```shell
-curl http://portalproperti.es/prettify/1.4.0-ga1 -F portalPropertiesFile=@/path/to/portal-ext.properties
+curl http://portalproperti.es/prettify/6.1.0-ga1 -F portalPropertiesFile=@/path/to/portal-ext.properties
 ```
 
 Or if you need to print the original value of each customized property you must call the service this way
 
 ```shell
-curl http://portalproperti.es/prettify/1.4.0-g4/true -F portalPropertiesFile=@/path/to/portal-ext.properties
+curl http://portalproperti.es/prettify/6.2.3-g4/true -F portalPropertiesFile=@/path/to/portal-ext.properties
 ```
 
 ### Sample
@@ -64,11 +64,11 @@ curl http://portalproperti.es/prettify/1.4.0-g4/true -F portalPropertiesFile=@/p
     #javascript.fast.load=true
 
 ##
-## Obsolete properties of 1.4.0-ga1
+## Obsolete properties of 6.1.0-ga1
 ##
 
     #
-    # The properties listed below are obsolete for version 1.4.0-ga4 which
+    # The properties listed below are obsolete for version 6.2.3-ga4 which
     # means that they don't have any influence in how Liferay is configured
     # and are safe be to removed.
     #
