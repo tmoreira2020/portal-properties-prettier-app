@@ -18,6 +18,8 @@
 
 <%@ include file="/html/init.jsp" %>
 
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/vs.min.css">
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.2.0/ZeroClipboard.min.js"></script>
 
 <portlet:actionURL var="prettifyURL" name="prettify" />
@@ -52,5 +54,5 @@
 	<div class="btn btn-warning pull-right" id="copyButton" data-clipboard-target="portalPrettyProperties">
 		<liferay-ui:message key="copy" />
 	</div>
-	<pre class="prettyprint" id="portalPrettyProperties">${requestScope.portalPrettyProperties}</pre>
+	<pre><code class="makefile" id="portalPrettyProperties">${requestScope.portalPrettyProperties}</code></pre>
 </c:if>

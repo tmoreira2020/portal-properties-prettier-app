@@ -21,6 +21,12 @@ ZeroClipboard.config({
 
 
 AUI().use("node", "aui-tooltip", function(A) {
+	var code = A.one("#portalPrettyProperties");
+
+	if (code) {
+		hljs.initHighlighting();
+	}
+
 	var client = new ZeroClipboard(document.getElementById("copyButton"));
 
 	var bridge = A.one("#global-zeroclipboard-html-bridge");
