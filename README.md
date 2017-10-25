@@ -19,7 +19,7 @@ You can test it on [http://portalproperti.es](http://portalproperti.es)
 
 ### Command line version
 
-You can also call the service from command line using [curl](http://curl.haxx.se/). If you don't provide a Liferay version it will use the default that is 6.2.3-ga4.
+You can also call the service from command line using [curl](http://curl.haxx.se/). If you don't provide a Liferay version it will use the default that is 7.0.4-ga5.
 
 ```shell
 curl http://portalproperti.es/prettify -F portalPropertiesFile=@/path/to/portal-ext.properties
@@ -126,7 +126,7 @@ Maven:
 <dependency>
     <groupId>br.com.thiagomoreira.liferay.plugins.portal-properties-prettier-app</groupId>
     <artifactId>portal-properties-prettier-app</artifactId>
-    <version>1.4.0</version>
+    <version>1.5.0</version>
     <type>lpkg</type>
 </dependency>
 ```
@@ -134,7 +134,7 @@ Gradle:
 
 ```groovy
 dependencies {
-    compile(group: "br.com.thiagomoreira.liferay.plugins.portal-properties-prettier-app", name: "portal-properties-prettier-app", version: "1.4.0", type: "lpkg");
+    compile(group: "br.com.thiagomoreira.liferay.plugins.portal-properties-prettier-app", name: "portal-properties-prettier-app", version: "1.5.0", type: "lpkg");
 }
 ```
 ### Support
