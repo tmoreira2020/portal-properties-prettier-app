@@ -30,6 +30,10 @@
 
 	<aui:fieldset>
 		<aui:select name="liferayVersion" >
+			<aui:option value="7.0.3-ga4">7.0.3-ga4</aui:option>
+			<aui:option value="7.0.2-ga3">7.0.2-ga3</aui:option>
+			<aui:option value="7.0.1-ga2">7.0.1-ga2</aui:option>
+			<aui:option value="7.0.0-ga1">7.0.0-ga1</aui:option>
 			<aui:option value="6.2.3-ga4">6.2.3-ga4</aui:option>
 			<aui:option value="6.2.2-ga3">6.2.2-ga3</aui:option>
 			<aui:option value="6.2.1-ga2">6.2.1-ga2</aui:option>
