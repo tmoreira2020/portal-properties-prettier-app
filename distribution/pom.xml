@@ -39,10 +39,10 @@
 				<executions>
 					<execution>
 						<id>distro-assembly</id>
-						<phase>package</phase>
 						<goals>
 							<goal>single</goal>
 						</goals>
+						<phase>package</phase>
 						<configuration>
 							<appendAssemblyId>false</appendAssemblyId>
 							<tarLongFileMode>gnu</tarLongFileMode>
@@ -59,10 +59,10 @@
 				<executions>
 					<execution>
 						<id>attach-instrumented-jar</id>
-						<phase>package</phase>
 						<goals>
 							<goal>attach-artifact</goal>
 						</goals>
+						<phase>package</phase>
 						<configuration>
 							<artifacts>
 								<artifact>

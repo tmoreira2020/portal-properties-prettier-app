@@ -44,15 +44,15 @@
 	<scm>
 		<connection>scm:git:git@github.com:tmoreira2020/portal-properties-prettier-app.git</connection>
 		<developerConnection>scm:git:git@github.com:tmoreira2020/portal-properties-prettier-app.git</developerConnection>
-		<url>https://github.com/tmoreira2020/portal-properties-prettier-app</url>
 		<tag>HEAD</tag>
+		<url>https://github.com/tmoreira2020/portal-properties-prettier-app</url>
 	</scm>
 
 	<properties>
-		<liferay.home>${user.home}/projects/thiagomoreira/liferay-plugins/liferay-portal-6.2-ce-ga6</liferay.home>
-		<liferay.auto.deploy.dir>${liferay.home}/deploy</liferay.auto.deploy.dir>
 		<liferay.app.server.portal.dir>${liferay.home}/tomcat-7.0.62/webapps/ROOT</liferay.app.server.portal.dir>
+		<liferay.auto.deploy.dir>${liferay.home}/deploy</liferay.auto.deploy.dir>
 		<liferay.dependencies.version>6.2.5</liferay.dependencies.version>
+		<liferay.home>${user.home}/projects/thiagomoreira/liferay-plugins/liferay-portal-6.2-ce-ga6</liferay.home>
 		<liferay.plugins.version>6.2.2</liferay.plugins.version>
 		<powermock.version>1.5.4</powermock.version>
 	</properties>
@@ -60,14 +60,14 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>commons-io</groupId>
-				<artifactId>commons-io</artifactId>
-				<version>2.4</version>
-			</dependency>
-			<dependency>
 				<groupId>com.github.mpkorstanje</groupId>
 				<artifactId>simmetrics-core</artifactId>
 				<version>3.2.0</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>2.4</version>
 			</dependency>
 			<dependency>
 				<groupId>com.liferay.portal</groupId>
@@ -94,15 +94,15 @@
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>servlet-api</artifactId>
-				<version>2.4</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
 				<groupId>javax.portlet</groupId>
 				<artifactId>portlet-api</artifactId>
 				<version>2.0</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>servlet-api</artifactId>
+				<version>2.4</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
@@ -123,8 +123,8 @@
 	<build>
 		<resources>
 			<resource>
-				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
+				<directory>src/main/resources</directory>
 				<excludes>
 					<exclude>WEB-INF/liferay-plugin-package.properties</exclude>
 				</excludes>
@@ -132,6 +132,16 @@
 		</resources>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>com.liferay.maven.plugins</groupId>
+					<artifactId>liferay-maven-plugin</artifactId>
+					<version>${liferay.plugins.version}</version>
+					<configuration>
+						<liferayVersion>${liferay.dependencies.version}</liferayVersion>
+						<autoDeployDir>${liferay.auto.deploy.dir}</autoDeployDir>
+						<appServerPortalDir>${liferay.app.server.portal.dir}</appServerPortalDir>
+					</configuration>
+				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-war-plugin</artifactId>
@@ -146,16 +156,6 @@
 								</includes>
 							</resource>
 						</webResources>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>com.liferay.maven.plugins</groupId>
-					<artifactId>liferay-maven-plugin</artifactId>
-					<version>${liferay.plugins.version}</version>
-					<configuration>
-						<liferayVersion>${liferay.dependencies.version}</liferayVersion>
-						<autoDeployDir>${liferay.auto.deploy.dir}</autoDeployDir>
-						<appServerPortalDir>${liferay.app.server.portal.dir}</appServerPortalDir>
 					</configuration>
 				</plugin>
 			</plugins>

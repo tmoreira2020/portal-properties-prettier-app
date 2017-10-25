@@ -67,10 +67,10 @@
 				</configuration>
 				<executions>
 					<execution>
-						<phase>generate-sources</phase>
 						<goals>
 							<goal>build-css</goal>
 						</goals>
+						<phase>generate-sources</phase>
 					</execution>
 				</executions>
 			</plugin>
