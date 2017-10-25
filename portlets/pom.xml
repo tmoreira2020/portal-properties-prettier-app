@@ -38,17 +38,17 @@
 		<dependency>
 			<groupId>com.liferay.portal</groupId>
 			<artifactId>util-bridges</artifactId>
-			<version>${liferay.dependencies.version}</version>
+			<version>${liferay.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.liferay.portal</groupId>
 			<artifactId>util-java</artifactId>
-			<version>${liferay.dependencies.version}</version>
+			<version>${liferay.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.liferay.portal</groupId>
 			<artifactId>util-taglib</artifactId>
-			<version>${liferay.dependencies.version}</version>
+			<version>${liferay.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.web</groupId>
