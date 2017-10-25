@@ -49,11 +49,6 @@
 	</scm>
 
 	<properties>
-		<liferay.home>${user.home}/projects/thiagomoreira/liferay-portal-6.2-ce-ga1</liferay.home>
-		<liferay.auto.deploy.dir>${liferay.home}/deploy</liferay.auto.deploy.dir>
-		<liferay.app.server.portal.dir>${liferay.home}/tomcat-7.0.42/webapps/ROOT</liferay.app.server.portal.dir>
-		<liferay.dependencies.version>6.2.0-ga1</liferay.dependencies.version>
-		<liferay.plugins.version>6.2.0-ga1</liferay.plugins.version>
 		<powermock.version>1.5.4</powermock.version>
 	</properties>
 
@@ -72,25 +67,25 @@
 			<dependency>
 				<groupId>com.liferay.portal</groupId>
 				<artifactId>portal-service</artifactId>
-				<version>${liferay.dependencies.version}</version>
+				<version>${liferay.version}</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.liferay.portal</groupId>
 				<artifactId>util-bridges</artifactId>
-				<version>${liferay.dependencies.version}</version>
+				<version>${liferay.version}</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.liferay.portal</groupId>
 				<artifactId>util-java</artifactId>
-				<version>${liferay.dependencies.version}</version>
+				<version>${liferay.version}</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.liferay.portal</groupId>
 				<artifactId>util-taglib</artifactId>
-				<version>${liferay.dependencies.version}</version>
+				<version>${liferay.version}</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
@@ -151,9 +146,9 @@
 				<plugin>
 					<groupId>com.liferay.maven.plugins</groupId>
 					<artifactId>liferay-maven-plugin</artifactId>
-					<version>${liferay.plugins.version}</version>
+					<version>${liferay.maven.plugin.version}</version>
 					<configuration>
-						<liferayVersion>${liferay.dependencies.version}</liferayVersion>
+						<liferayVersion>${liferay.version}</liferayVersion>
 						<autoDeployDir>${liferay.auto.deploy.dir}</autoDeployDir>
 						<appServerPortalDir>${liferay.app.server.portal.dir}</appServerPortalDir>
 					</configuration>
