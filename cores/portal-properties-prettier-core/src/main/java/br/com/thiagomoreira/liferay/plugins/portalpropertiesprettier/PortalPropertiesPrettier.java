@@ -50,7 +50,7 @@ import com.liferay.util.ContentUtil;
 public class PortalPropertiesPrettier {
 
 	protected String[] portalFileNames = {"6.1.0-ga1", "6.1.1-ga2",
-			"6.1.2-ga3", "6.2.0-ga1", "6.2.1-ga2", "6.2.2-ga3", "6.2.3-ga4", "6.2.4-ga5"};
+			"6.1.2-ga3", "6.2.0-ga1", "6.2.1-ga2", "6.2.2-ga3", "6.2.3-ga4", "6.2.4-ga5", "6.2.5-ga6"};
 	protected Map<String, String> defaultPortalProperties = new HashMap<>();
 	protected Map<String, String> jdbcMapping = new HashMap<>();
 	private static Log log = LogFactoryUtil
