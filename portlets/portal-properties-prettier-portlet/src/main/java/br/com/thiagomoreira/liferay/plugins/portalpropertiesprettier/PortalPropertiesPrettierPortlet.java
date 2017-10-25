@@ -65,7 +65,7 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 				.getUploadPortletRequest(request);
 
 		String liferayVersion = ParamUtil.getString(uploadPortletRequest,
-				"liferayVersion", "6.2.5-ga6");
+				"liferayVersion", "7.0.4-ga5");
 		boolean printDefaultValue = ParamUtil.getBoolean(uploadPortletRequest,
 				"printDefaultValue");
 
