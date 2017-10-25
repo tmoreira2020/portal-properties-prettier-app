@@ -146,9 +146,9 @@
 				<plugin>
 					<groupId>com.liferay.maven.plugins</groupId>
 					<artifactId>liferay-maven-plugin</artifactId>
-					<version>${liferay.plugins.version}</version>
+					<version>${liferay.maven.plugin.version}</version>
 					<configuration>
-						<liferayVersion>${liferay.dependencies.version}</liferayVersion>
+						<liferayVersion>${liferay.version}</liferayVersion>
 						<autoDeployDir>${liferay.auto.deploy.dir}</autoDeployDir>
 						<appServerPortalDir>${liferay.app.server.portal.dir}</appServerPortalDir>
 					</configuration>
