@@ -22,7 +22,7 @@
 	<parent>
 		<groupId>br.com.thiagomoreira.liferay.plugins.portal-properties-prettier-app</groupId>
 		<artifactId>cores</artifactId>
-		<version>1.4.1-SNAPSHOT</version>
+		<version>1.5.0</version>
 	</parent>
 
 	<artifactId>portal-properties-prettier-core</artifactId>
