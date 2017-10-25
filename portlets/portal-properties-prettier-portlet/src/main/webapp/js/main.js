@@ -13,11 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-ZeroClipboard.config({
-	hoverClass : "btn-clipboard-hover",
-	title: "Copy to clipboard!"
-});
-
 
 AUI().use("node", "aui-tooltip", function(A) {
 	var code = A.one("#portalPrettyProperties");
@@ -25,34 +20,23 @@ AUI().use("node", "aui-tooltip", function(A) {
 	if (code) {
 		hljs.initHighlighting();
 
-		var client = new ZeroClipboard(document.getElementById("copyButton"));
-
-		var bridge = A.one("#global-zeroclipboard-html-bridge");
+		var clipboard = new Clipboard("#copyButton");
 
 		var tooltip =new A.Tooltip({
-			trigger : "#global-zeroclipboard-html-bridge",
+			trigger : "#copyButton",
 			position : "top"
 		});
 
 		tooltip.toggle(false);
-		tooltip.render();
 
 
-		client.on("error", function(event) {
-			ZeroClipboard.destroy();
+		clipboard.on("error", function(event) {
 		});
 
-		client.on("ready", function( readyEvent ) {
-			bridge.attr("title", "Copy to clipboard!");
-
-			client.on("beforecopy", function( event ) {
-				tooltip.toggle(false);
-				bridge.attr("title", "Copied!");
-			});
-
-			client.on("aftercopy", function( event ) {
-				tooltip.toggle(true);
-			});
+		clipboard.on('success',function(e){
+			e.clearSelection();
+			tooltip.toggle(true);
+			tooltip.render();
 		});
 	}
 });
