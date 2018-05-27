@@ -29,7 +29,16 @@
 	<packaging>pom</packaging>
 
 	<name>Portal Properties Prettier App</name>
-
+	<dependencies>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+	</dependencies>
 	<build>
 		<finalName>portal-properties-prettier-app-${project.version}</finalName>
 		<plugins>

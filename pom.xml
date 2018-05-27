@@ -49,66 +49,85 @@
 	</scm>
 
 	<properties>
-		<liferay.app.server.portal.dir>${liferay.home}/tomcat-7.0.62/webapps/ROOT</liferay.app.server.portal.dir>
 		<liferay.auto.deploy.dir>${liferay.home}/deploy</liferay.auto.deploy.dir>
-		<liferay.dependencies.version>6.2.5</liferay.dependencies.version>
-		<liferay.home>${user.home}/projects/thiagomoreira/liferay-plugins/liferay-portal-6.2-ce-ga6</liferay.home>
-		<liferay.plugins.version>6.2.2</liferay.plugins.version>
 		<powermock.version>1.5.4</powermock.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>1.11</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>2.2</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
 				<groupId>com.github.mpkorstanje</groupId>
 				<artifactId>simmetrics-core</artifactId>
 				<version>3.2.0</version>
 			</dependency>
 			<dependency>
-				<groupId>commons-io</groupId>
-				<artifactId>commons-io</artifactId>
-				<version>2.4</version>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>18.0</version>
 			</dependency>
 			<dependency>
-				<groupId>com.liferay.portal</groupId>
-				<artifactId>portal-service</artifactId>
-				<version>${liferay.dependencies.version}</version>
+				<groupId>com.liferay</groupId>
+				<artifactId>com.liferay.petra.content</artifactId>
+				<version>1.0.4</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.liferay</groupId>
+				<artifactId>com.liferay.petra.lang</artifactId>
+				<version>1.1.2</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.liferay</groupId>
+				<artifactId>com.liferay.petra.string</artifactId>
+				<version>1.1.2</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.liferay.portal</groupId>
-				<artifactId>util-bridges</artifactId>
-				<version>${liferay.dependencies.version}</version>
+				<artifactId>com.liferay.portal.kernel</artifactId>
+				<version>3.0.0</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.liferay.portal</groupId>
-				<artifactId>util-java</artifactId>
-				<version>${liferay.dependencies.version}</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.liferay.portal</groupId>
-				<artifactId>util-taglib</artifactId>
-				<version>${liferay.dependencies.version}</version>
+				<artifactId>com.liferay.util.taglib</artifactId>
+				<version>2.11.0</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>javax.portlet</groupId>
 				<artifactId>portlet-api</artifactId>
-				<version>2.0</version>
+				<version>3.0.0</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>javax.servlet</groupId>
-				<artifactId>servlet-api</artifactId>
-				<version>2.4</version>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>3.0.1</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
-				<groupId>javax.servlet.jsp</groupId>
-				<artifactId>jsp-api</artifactId>
-				<version>2.0</version>
+				<groupId>jstl</groupId>
+				<artifactId>jstl</artifactId>
+				<version>1.2</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>osgi.cmpn</artifactId>
+				<version>6.0.0</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
@@ -130,36 +149,6 @@
 				</excludes>
 			</resource>
 		</resources>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>com.liferay.maven.plugins</groupId>
-					<artifactId>liferay-maven-plugin</artifactId>
-					<version>${liferay.plugins.version}</version>
-					<configuration>
-						<liferayVersion>${liferay.dependencies.version}</liferayVersion>
-						<autoDeployDir>${liferay.auto.deploy.dir}</autoDeployDir>
-						<appServerPortalDir>${liferay.app.server.portal.dir}</appServerPortalDir>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-war-plugin</artifactId>
-					<configuration>
-						<webResources>
-							<resource>
-								<directory>src/main/resources/WEB-INF</directory>
-								<targetPath>WEB-INF</targetPath>
-								<filtering>true</filtering>
-								<includes>
-									<include>liferay-plugin-package.properties</include>
-								</includes>
-							</resource>
-						</webResources>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
