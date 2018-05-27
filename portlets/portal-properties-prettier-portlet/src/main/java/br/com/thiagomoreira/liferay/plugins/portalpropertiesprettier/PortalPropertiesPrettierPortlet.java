@@ -22,6 +22,7 @@ import java.util.Properties;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
@@ -29,17 +30,30 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PropertiesUtil;
-import com.liferay.portal.util.PortalUtil;
-import com.liferay.util.bridges.mvc.MVCPortlet;
 
 import br.com.thiagomoreira.liferay.plugins.portalpropertiesprettier.core.PortalPropertiesPrettier;
 
+@Component(immediate = true, property = {
+		"com.liferay.portlet.display-category=category.thiagomoreira",
+		"com.liferay.portlet.instanceable=false",
+		"com.liferay.portlet.preferences-company-wide=true",
+		"com.liferay.portlet.requires-namespaced-parameters=false",
+		"com.liferay.portlet.header-portlet-css=/css/main.css",
+		"com.liferay.portlet.footer-portlet-javascript=/js/main.js",
+		"javax.portlet.display-name=Portal Properties Prettier",
+		"javax.portlet.init-param.template-path=/",
+		"javax.portlet.init-param.view-template=/view.jsp",
+		"javax.portlet.resource-bundle=content.Language",
+		"javax.portlet.security-role-ref=power-user,user"}, service = Portlet.class)
 public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 
 	protected PortalPropertiesPrettier prettier;

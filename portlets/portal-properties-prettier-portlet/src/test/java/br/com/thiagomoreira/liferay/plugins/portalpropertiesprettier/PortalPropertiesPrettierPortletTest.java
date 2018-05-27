@@ -33,8 +33,8 @@ import org.springframework.mock.web.portlet.MockResourceResponse;
 
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.util.Portal;
-import com.liferay.portal.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.PortalUtil;
 
 import br.com.thiagomoreira.liferay.plugins.portalpropertiesprettier.core.PortalPropertiesPrettier;
 
