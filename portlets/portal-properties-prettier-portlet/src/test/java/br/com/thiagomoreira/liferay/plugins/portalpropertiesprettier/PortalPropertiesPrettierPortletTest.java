@@ -36,6 +36,8 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.util.Portal;
 import com.liferay.portal.util.PortalUtil;
 
+import br.com.thiagomoreira.liferay.plugins.portalpropertiesprettier.core.PortalPropertiesPrettier;
+
 public class PortalPropertiesPrettierPortletTest {
 
 	@Test

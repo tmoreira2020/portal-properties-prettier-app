@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package br.com.thiagomoreira.liferay.plugins.portalpropertiesprettier;
+package br.com.thiagomoreira.liferay.plugins.portalpropertiesprettier.core;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,6 +32,7 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.osgi.service.component.annotations.Component;
 import org.simmetrics.StringMetric;
 import org.simmetrics.StringMetricBuilder;
 import org.simmetrics.metrics.CosineSimilarity;
@@ -40,14 +41,15 @@ import org.simmetrics.simplifiers.WordCharacters;
 import org.simmetrics.tokenizers.QGram;
 import org.simmetrics.tokenizers.Whitespace;
 
+import com.liferay.petra.content.ContentUtil;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.PropertiesUtil;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.util.ContentUtil;
 
-public class PortalPropertiesPrettier {
+@Component(immediate = true, service = PortalPropertiesPrettier.class)
+public class PortalPropertiesPrettierImpl implements PortalPropertiesPrettier {
 
 	protected String[] portalFileNames = {"6.1.0-ga1", "6.1.1-ga2",
 			"6.1.2-ga3", "6.2.0-ga1", "6.2.1-ga2", "6.2.2-ga3", "6.2.3-ga4",
@@ -56,9 +58,9 @@ public class PortalPropertiesPrettier {
 	protected Map<String, String> defaultPortalProperties = new HashMap<>();
 	protected Map<String, String> jdbcMapping = new HashMap<>();
 	private static Log log = LogFactoryUtil
-			.getLog(PortalPropertiesPrettier.class);
+			.getLog(PortalPropertiesPrettierImpl.class);
 
-	public PortalPropertiesPrettier() {
+	public PortalPropertiesPrettierImpl() {
 		jdbcMapping.put("derby", "Derby");
 		jdbcMapping.put("hsqldb", "Hypersonic");
 		jdbcMapping.put("ingres", "Ingres");
@@ -74,6 +76,14 @@ public class PortalPropertiesPrettier {
 		return prettify(customProperties, liferayVersion, false);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see br.com.thiagomoreira.liferay.plugins.portalpropertiesprettier.
+	 * PortalPropertiesPrettier#prettify(java.util.Properties, java.lang.String,
+	 * boolean)
+	 */
+	@Override
 	public String prettify(Properties customProperties, String liferayVersion,
 			boolean printDefaultValue) throws IOException {
 
@@ -231,7 +241,9 @@ public class PortalPropertiesPrettier {
 			log.info("Missing cache for portal.properties version "
 					+ liferayVersion);
 
-			portalProperties = ContentUtil.get(defaultPortalPropertiesPath);
+			portalProperties = ContentUtil.get(
+					PortalPropertiesPrettierImpl.class.getClassLoader(),
+					defaultPortalPropertiesPath);
 
 			defaultPortalProperties.put(defaultPortalPropertiesPath,
 					portalProperties);

@@ -29,6 +29,7 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -37,9 +38,11 @@ import com.liferay.portal.kernel.util.PropertiesUtil;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
+import br.com.thiagomoreira.liferay.plugins.portalpropertiesprettier.core.PortalPropertiesPrettier;
+
 public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 
-	protected PortalPropertiesPrettier prettier = new PortalPropertiesPrettier();
+	protected PortalPropertiesPrettier prettier;
 
 	public void prettify(ActionRequest request, ActionResponse response)
 			throws IOException, PortletException {
@@ -57,6 +60,11 @@ public class PortalPropertiesPrettierPortlet extends MVCPortlet {
 		OutputStream out = response.getPortletOutputStream();
 		IOUtils.copy(new StringReader(prettyProperties), out);
 		IOUtils.closeQuietly(out);
+	}
+
+	@Reference(unbind = "-")
+	public void setPortalPropertiesPrettier(PortalPropertiesPrettier prettier) {
+		this.prettier = prettier;
 	}
 
 	protected String prettify(PortletRequest request) throws IOException,
