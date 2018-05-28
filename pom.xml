@@ -140,15 +140,6 @@
 	</dependencyManagement>
 
 	<build>
-		<resources>
-			<resource>
-				<filtering>true</filtering>
-				<directory>src/main/resources</directory>
-				<excludes>
-					<exclude>WEB-INF/liferay-plugin-package.properties</exclude>
-				</excludes>
-			</resource>
-		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
