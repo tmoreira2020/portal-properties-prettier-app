@@ -22,24 +22,30 @@
 	<parent>
 		<groupId>br.com.thiagomoreira.liferay.plugins.portal-properties-prettier-app</groupId>
 		<artifactId>portlets</artifactId>
-		<version>1.5.1-SNAPSHOT</version>
+		<version>2.0.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>portal-properties-prettier-portlet</artifactId>
-	<packaging>war</packaging>
 
 	<name>Portal Properties Prettier Portlet</name>
 	<description>Turns a messy portal-*.properties into a clean and well organised portal-*.properties.</description>
 
 	<dependencies>
 		<dependency>
-			<groupId>br.com.thiagomoreira.liferay.plugins.portal-properties-prettier-app</groupId>
-			<artifactId>portal-properties-prettier-core</artifactId>
-			<version>${project.version}</version>
+			<groupId>com.liferay</groupId>
+			<artifactId>com.liferay.petra.lang</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.liferay.portal</groupId>
-			<artifactId>portal-service</artifactId>
+			<artifactId>com.liferay.portal.kernel</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.liferay.portal</groupId>
+			<artifactId>com.liferay.util.taglib</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>javax.portlet</groupId>
@@ -47,11 +53,25 @@
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>osgi.cmpn</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>br.com.thiagomoreira.liferay.plugins.portal-properties-prettier-app</groupId>
+			<artifactId>portal-properties-prettier-core</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.easymock</groupId>
@@ -72,4 +92,70 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>biz.aQute.bnd</groupId>
+				<artifactId>bnd-maven-plugin</artifactId>
+				<version>4.0.0</version>
+				<configuration>
+					<bnd><![CDATA[-jsp: *.jsp,*.jspf
+							-plugin.bundle: com.liferay.ant.bnd.resource.bundle.ResourceBundleLoaderAnalyzerPlugin
+							-plugin.jsp: com.liferay.ant.bnd.jsp.JspAnalyzerPlugin
+							-plugin.sass: com.liferay.ant.bnd.sass.SassAnalyzerPlugin
+							-contract: JavaPortlet
+							-sass: *
+							-sources: true]]></bnd>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>biz.aQute.bnd</groupId>
+						<artifactId>biz.aQute.bndlib</artifactId>
+						<version>4.0.0</version>
+					</dependency>
+					<dependency>
+						<groupId>com.liferay</groupId>
+						<artifactId>com.liferay.ant.bnd</artifactId>
+						<version>2.0.50</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<goals>
+							<goal>bnd-process</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.liferay</groupId>
+				<artifactId>com.liferay.css.builder</artifactId>
+				<version>2.0.2</version>
+				<configuration>
+					<docrootDirName>src/main/resources</docrootDirName>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>build</goal>
+						</goals>
+						<phase>generate-resources</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<archive>
+						<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+					</archive>
+					<excludes>
+						<exclude>**/META-INF/resources/**/.sass-cache/</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

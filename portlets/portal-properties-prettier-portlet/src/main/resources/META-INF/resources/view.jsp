@@ -15,7 +15,7 @@
     limitations under the License.
 
 --%>
-<%@ include file="/html/init.jsp" %>
+<%@ include file="/init.jsp" %>
 
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/vs.min.css">
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js"></script>
