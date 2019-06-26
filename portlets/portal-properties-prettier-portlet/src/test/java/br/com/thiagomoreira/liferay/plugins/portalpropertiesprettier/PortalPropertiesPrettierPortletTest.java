@@ -35,6 +35,8 @@ import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Props;
+import com.liferay.portal.kernel.util.PropsUtil;
 
 import br.com.thiagomoreira.liferay.plugins.portalpropertiesprettier.core.PortalPropertiesPrettier;
 
@@ -88,6 +90,8 @@ public class PortalPropertiesPrettierPortletTest {
 		String expected = "expected";
 		ByteArrayInputStream in = new ByteArrayInputStream(expected.getBytes());
 		UploadPortletRequest uploadPortletRequest = createNiceMock(UploadPortletRequest.class);
+		Props props = createNiceMock(Props.class);
+		PropsUtil.setProps(props);
 
 		expect(uploadPortletRequest.getParameter("liferayVersion")).andReturn(
 				liferayVersion);
