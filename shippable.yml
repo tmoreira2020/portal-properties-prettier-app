@@ -21,7 +21,7 @@ jdk:
 
 env:
   global:
-    - SEED_VERSION=2.1.0
+    - SEED_VERSION=3.0.0
     - secure: DfPKfCWIlOqUUIMosOhbY0ciXtgDEIhIT8fAnWKe2U29/Ksvom7fi3JVGJ3s2zw6Oxyux7zK9EcWCT+161bDVQAxdoKRNSD30DqcNeEPBrUVNgK4hnpk9rZ1HFbiCYk+h6Fzbeo4bj366/soTZU1CHlkF8k1q1rhNlpMBRZHXrekU7wjUgP2M4RXjqSinf0IJIZoiq/Yj1NTGY83+zi/RWVm4UaxpuX8B9CXhQiFdQvxpDdizH05akTABsnPdnLmmbJP26/RdNzlS3B+mWW5yyBRPowh/JbgvYdfIRdbPUv0yMzKRlmRaV8AE5wKPQX5NcsHElNnagwwbYYOTKHcSw==
 
 before_script:
